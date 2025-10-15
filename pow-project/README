@@ -1,0 +1,7 @@
+### Como iniciar el proyecto
+# Primero tienen que tirar este comando para compilar tanto el front como el back
+´´´
+    composer dev
+´´´ 
+
+### Hagan un login con algun correo ficticio y despues empiezen a toquetear
