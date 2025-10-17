@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImagenesController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,6 +12,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('/imagenes',[ImagenesController::class, 'index'])->name('imagenes.index');
+    Route::get('/imagenes/agregar',[ImagenesController::class, 'agregar'])->name('imagenes.agregar');
+
 });
 
 require __DIR__.'/settings.php';
