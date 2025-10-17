@@ -1,4 +1,14 @@
 ### Como iniciar el proyecto
+
+# Lo primero que tiene que hacer es configurar la BD en el archivo .env
+# En el apartado de BD les tiene que quedar asi con su usuario y contraseña: 
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=pow_project_db
+    DB_USERNAME=root
+    DB_PASSWORD=
+
 # Descargar todas las dependencias
 
 Tirar estos comandos en la consola:

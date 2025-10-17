@@ -16,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/imagenes',[ImagenesController::class, 'index'])->name('imagenes.index');
     Route::get('/imagenes/agregar',[ImagenesController::class, 'agregar'])->name('imagenes.agregar');
 
+    Route::post('imagenes/guardar', [ImagenesController::class, 'guardar'])->name('imagenes.guardar');
+
 });
 
 require __DIR__.'/settings.php';
