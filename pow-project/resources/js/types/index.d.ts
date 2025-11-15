@@ -22,13 +22,27 @@ export interface NavItem {
     isActive?: boolean;
 }
 
-export interface SharedData {
-    name: string;
-    quote: { message: string; author: string };
-    auth: Auth;
-    sidebarOpen: boolean;
-    [key: string]: unknown;
+export interface UserPayload {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string;
+  roles: string[];        
+  permissions: string[];  
 }
+
+export interface Auth {
+  user: UserPayload | null;
+}
+
+export interface SharedData {
+  name: string;
+  quote: { message: string; author: string };
+  auth: Auth;                 
+  sidebarOpen: boolean;
+  [key: string]: unknown;
+}
+
 
 export interface User {
     id: number;

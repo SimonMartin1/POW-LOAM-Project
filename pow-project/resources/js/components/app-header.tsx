@@ -72,7 +72,20 @@ interface AppHeaderProps {
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
+
+    const user = auth.user;
+
+    const isAdmin = user?.roles?.includes('admin') ?? false;
+
+    const mainNavItems: NavItem[] = [
+        { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+        ...(isAdmin
+        ? [{ title: 'Imagenes', href: '/imagenes', icon: ImagePlus } as NavItem]
+        : []),
+    ];
+
     const getInitials = useInitials();
+    
     return (
         <>
             <div className="border-b border-sidebar-border/80">

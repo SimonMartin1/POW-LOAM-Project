@@ -9,9 +9,8 @@ use Inertia\Inertia;
  */
 Route::get('/', fn () => Inertia::render('welcome'))->name('home');
 
-Route::middleware(['auth','verified','role:visitor|admin'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/dashboard', fn () => Inertia::render('dashboard'))->name('dashboard'); // o visitor.search
-    Route::get('/imagenes', [ImagenesController::class, 'index'])->name('imagenes.index');
 });
 
 Route::middleware(['auth', 'role:admin'])->get('/__role_test', function () {
@@ -22,8 +21,15 @@ Route::middleware(['auth', 'role:admin'])->get('/__role_test', function () {
  * Área solo Admin (gestión/ABM)
  */
 Route::middleware(['auth','verified','role:admin'])->group(function () {
+    Route::get('/imagenes', [ImagenesController::class, 'index'])->name('imagenes.index');
+    
     Route::get('/imagenes/agregar', [ImagenesController::class, 'agregar'])->name('imagenes.agregar');
     Route::post('/imagenes/guardar', [ImagenesController::class, 'guardar'])->name('imagenes.guardar');
+
+    Route::get('/imagenes/{imagen}/editar', [ImagenesController::class, 'editar'])->name('imagenes.editar');
+    Route::put('/imagenes/{imagen}', [ImagenesController::class, 'actualizar'])->name('imagenes.actualizar');
+
+    Route::delete('/imagenes/{id}', [ImagenesController::class, 'eliminar'])->name('imagenes.eliminar');
 });
 
 require __DIR__.'/settings.php';
