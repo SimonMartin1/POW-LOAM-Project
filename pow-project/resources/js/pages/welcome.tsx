@@ -84,16 +84,31 @@ export default function Welcome({ imagenes = [] }: { imagenes: Imagen[] }) {
             )}
 
             {/* FOOTER */}
-            <footer className="py-6 text-center mt-10 text-sm text-[#5A5A5A] border-t border-[#D8D2C4]">
-                <div className="flex justify-center gap-6 mb-3">
-                    <img src="/images/social/linkedin.png" className="h-6 opacity-70 hover:opacity-100 transition" />
-                    <img src="/images/social/facebook.png" className="h-6 opacity-70 hover:opacity-100 transition" />
-                    <img src="/images/social/x.png" className="h-6 opacity-70 hover:opacity-100 transition" />
-                    <img src="/images/social/instagram.png" className="h-6 opacity-70 hover:opacity-100 transition" />
-                    <img src="/images/social/youtube.png" className="h-6 opacity-70 hover:opacity-100 transition" />
+            <footer className="mt-20 w-full bg-[#2F2F2F] text-[#E5E5E5] py-10">
+                <div className="max-w-6xl mx-auto px-6">
+
+                    {/* REDES */}
+                    <div className="flex justify-center gap-8 mb-6">
+                        <img src="/images/social/linkedin.png"
+                            className="h-7 opacity-70 hover:opacity-100 transition cursor-pointer" />
+                        <img src="/images/social/facebook.png"
+                            className="h-7 opacity-70 hover:opacity-100 transition cursor-pointer" />
+                        <img src="/images/social/x.png"
+                            className="h-7 opacity-70 hover:opacity-100 transition cursor-pointer" />
+                        <img src="/images/social/instagram.png"
+                            className="h-7 opacity-70 hover:opacity-100 transition cursor-pointer" />
+                        <img src="/images/social/youtube.png"
+                            className="h-7 opacity-70 hover:opacity-100 transition cursor-pointer" />
+                    </div>
+
+                    {/* COPYRIGHT */}
+                    <p className="text-center text-sm tracking-wide">
+                        © {new Date().getFullYear()} Museo de Ciencias Naturales — Pecheras & Pategras · Facultad de Ingeniería UNLPam
+                    </p>
+
                 </div>
-                Pecheras & Pategras — Facultad de Ingeniería UNLPam
             </footer>
+
         </div>
     );
 }
