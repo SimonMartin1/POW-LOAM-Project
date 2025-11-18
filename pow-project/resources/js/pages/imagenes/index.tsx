@@ -25,7 +25,11 @@ interface Imagen {
   fecha_creacion: string;
   url_imagen: string;    
 }
-interface PageProps { imagenes: Imagen[]; }
+interface PageProps {
+    imagenes: Imagen[];
+    [key: string]: any; 
+}
+
 
 type UIRow = Imagen & { url_publica: string; fecha_lectura: string };
 
@@ -36,19 +40,30 @@ export default function Index() {
   const [rows, setRows] = useState<UIRow[]>([]);
 
   useEffect(() => {
-    const mapped = imagenes.map((i) => {
-      const url_publica = i.url_imagen?.startsWith("http")
-        ? i.url_imagen
-        : i.url_imagen
-        ? `/storage/${i.url_imagen}`
-        : "";
-      const fecha_lectura = i.fecha_creacion
-        ? new Date(i.fecha_creacion).toISOString().slice(0, 10)
-        : "";
-      return { ...i, url_publica, fecha_lectura };
-    });
-    setRows(mapped);
+      const mapped = imagenes.map((i) => {
+          
+          // Normaliza la URL correcta
+          let url_publica = "";
+
+          if (!i.url_imagen) {
+              url_publica = "";
+          } else if (i.url_imagen.startsWith("http")) {
+              url_publica = i.url_imagen;
+          } else {
+              // Aseguramos construcción correcta
+              url_publica = `${window.location.origin}/storage/${i.url_imagen}`;
+          }
+
+          const fecha_lectura = i.fecha_creacion
+              ? new Date(i.fecha_creacion).toISOString().slice(0, 10)
+              : "";
+
+          return { ...i, url_publica, fecha_lectura };
+      });
+
+      setRows(mapped);
   }, [imagenes]);
+
 
   const { processing, delete: destroy } = useForm();
 
@@ -95,6 +110,21 @@ export default function Index() {
 
       {/* Toolbar */}
       <div className="m-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Link
+            href="/dashboard"
+            className="
+                inline-flex items-center gap-2 
+                px-4 py-2 rounded-xl 
+                bg-white text-[#3A5A40] 
+                border border-[#D0C7B8]
+                shadow-sm
+                hover:bg-[#EEE7DC]
+                transition
+            "
+        >
+            ← Volver
+        </Link>
+
         <h1 className="text-xl font-semibold">Imágenes</h1>
 
         <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -105,7 +135,7 @@ export default function Index() {
               placeholder="Buscar por nombre, descripción o autor…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-9 pr-9"
+              className="pl-9 pr-9 soft-field"
             />
             {query && (
               <button
@@ -121,11 +151,11 @@ export default function Index() {
           {/* Columns */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="whitespace-nowrap">
+              <Button variant="outline" className="whitespace-nowrap soft-button">
                 Columns <ChevronDown className="ml-1 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent align="end" className="w-48 dropdown-solid">
               <DropdownMenuLabel>Mostrar/Ocultar</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
@@ -219,7 +249,7 @@ export default function Index() {
                       <Button
                         disabled={processing}
                         onClick={() => handleDelete(img.id, img.nombre)}
-                        variant="destructive"
+                        className="bg-[#d9534f] hover:bg-[#c9302c] text-white shadow-sm"
                         size="sm"
                       >
                         Eliminar

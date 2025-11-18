@@ -98,5 +98,22 @@ class ImagenesController extends Controller
         $imagen = Imagenes::findOrFail($id);
         return Inertia::render('imagenes/editar', compact('imagen'));
     }
+    public function galeria()
+    {
+        $imagenes = Imagenes::all();
+
+        return Inertia::render('galeria/index', [
+            'imagenes' => $imagenes
+        ]);
+    }
+    public function detalle($id)
+    {
+        $imagen = Imagenes::findOrFail($id);
+
+        return Inertia::render('galeria/detalle', [
+            'imagen' => $imagen
+        ]);
+    }
+
     
 }

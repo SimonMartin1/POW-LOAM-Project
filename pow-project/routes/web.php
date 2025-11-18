@@ -3,26 +3,54 @@
 use App\Http\Controllers\ImagenesController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Imagenes;
 
 /**
- * Público (sin login)
+ * ---------------------------------------------------------
+ *  RUTAS PÚBLICAS (SIN LOGIN)
+ * ---------------------------------------------------------
  */
-Route::get('/', fn () => Inertia::render('welcome'))->name('home');
 
-Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/dashboard', fn () => Inertia::render('dashboard'))->name('dashboard'); // o visitor.search
-});
 
-Route::middleware(['auth', 'role:admin'])->get('/__role_test', function () {
-    return 'Spatie roles OK';
+Route::get('/', function () {
+
+    $imagenes = Imagenes::whereNotNull('url_imagen')
+        ->where('url_imagen', '!=', '')
+        ->inRandomOrder()
+        ->take(2)
+        ->get();
+
+    return Inertia::render('welcome', [
+        'imagenes' => $imagenes
+    ]);
+})->name('home');
+
+
+// Galería pública
+Route::get('/galeria', [ImagenesController::class, 'galeria'])->name('galeria.public');
+Route::get('/galeria/{id}', [ImagenesController::class, 'detalle'])->name('galeria.public.detalle');
+
+
+/**
+ * ---------------------------------------------------------
+ *  RUTAS PRIVADAS (LOGIN REQUERIDO)
+ * ---------------------------------------------------------
+ */
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', fn() => Inertia::render('dashboard'))
+        ->name('dashboard');
 });
 
 /**
- * Área solo Admin (gestión/ABM)
+ * ---------------------------------------------------------
+ *  RUTAS SOLO ADMIN (ABM DE IMÁGENES)
+ * ---------------------------------------------------------
  */
 Route::middleware(['auth','verified','role:admin'])->group(function () {
+
     Route::get('/imagenes', [ImagenesController::class, 'index'])->name('imagenes.index');
-    
     Route::get('/imagenes/agregar', [ImagenesController::class, 'agregar'])->name('imagenes.agregar');
     Route::post('/imagenes/guardar', [ImagenesController::class, 'guardar'])->name('imagenes.guardar');
 

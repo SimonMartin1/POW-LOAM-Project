@@ -14,6 +14,7 @@ import { es } from "date-fns/locale";
 import AppLayout from "@/layouts/app-layout";
 import { useForm } from "@inertiajs/react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Link} from "@inertiajs/react";
 
 interface Imagen {
   id: number;
