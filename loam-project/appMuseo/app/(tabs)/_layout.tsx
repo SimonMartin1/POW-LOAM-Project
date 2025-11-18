@@ -1,12 +1,9 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, Image, View } from 'react-native';
-
-import Colors from '@/constants/Colors';
+import { Image } from 'react-native';
+import { Drawer } from 'expo-router/drawer';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
+import { DrawerToggleButton } from '@react-navigation/drawer';
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 
 function LogoTitle() {
@@ -21,82 +18,78 @@ function LogoTitle() {
 
 
 
-export default function TabLayout() {
+export default function Layout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
+    <Drawer
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
+        drawerPosition: 'right',
         headerShown: useClientOnlyValue(false, true),
+        headerRight: () => <DrawerToggleButton />,
+        headerLeft: () => null, 
       }}>
-      <Tabs.Screen
+      <Drawer.Screen
         name="index"
         options={{
-          tabBarLabel: '',
           title: 'index',
-          headerShown: false,
-          tabBarStyle: { display: 'none' },
-          href: null
+          drawerItemStyle: { display: 'none' },
         }}/>
-      <Tabs.Screen
+      <Drawer.Screen
         name="login"
         options={{
-          tabBarLabel: '',
           title: 'login',
-          headerShown: false,
-          tabBarStyle: { display: 'none' },
-          href: null
+          drawerItemStyle: { display: 'none' },
         }}/>
-      <Tabs.Screen
+      <Drawer.Screen
         name="register"
         options={{
-          tabBarLabel: '',
           title: 'register',
-          headerShown: false,
-          tabBarStyle: { display: 'none' },
-          href: null
+          drawerItemStyle: { display: 'none' },
         }}/>
-      <Tabs.Screen
+      <Drawer.Screen
         name="home"
         options={{
-          tabBarLabel: '',
           title: 'Inicio',
           headerTitle: () => <LogoTitle/>,
-          tabBarIcon: ({ color }) => <Image
+          drawerIcon: ({ color }) => <Image
               source={require('@/assets/icons/home.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <Image source={require('@/assets/icons/more_vert.png')} style={{ width: 28, height: 28}}/>
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
-      <Tabs.Screen
-        name="Escanear"
+      <Drawer.Screen
+        name="gallery"
         options={{
-          tabBarLabel: '',
+          title: 'Galeria',
+          headerTitle: () => <LogoTitle/>,
+          drawerIcon: ({ color }) => <Image
+              source={require('@/assets/icons/gallery.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
+        }}
+      />
+      <Drawer.Screen
+        name="qr_scan"
+        options={{
           title: 'Escanear',
-          tabBarIcon: ({ color }) => <Image
+          drawerIcon: ({ color }) => <Image
               source={require('@/assets/icons/qr_code_scanner.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
         }}
       />
-      
-      <Tabs.Screen
-        name="Perfil"
+      <Drawer.Screen
+        name="news"
         options={{
-          tabBarLabel: '',
+          title: 'Noticias',
+          headerTitle: () => <LogoTitle/>,
+          drawerIcon: ({ color }) => <Image
+              source={require('@/assets/icons/news.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
+        }}
+      />
+      <Drawer.Screen
+        name="profile"
+        options={{
           title: 'Perfil',
-          tabBarIcon: ({ color }) => <Image
+          drawerIcon: ({ color }) => <Image
               source={require('@/assets/icons/profile.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
         }}
       />
-    </Tabs>
+    </Drawer>
   );
 }

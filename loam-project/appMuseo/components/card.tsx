@@ -20,10 +20,10 @@ type MuseoCardProps = {
 
 const MuseoCard = ({ title, category, imageUrl, onPress }: MuseoCardProps) => {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark.text : Colors.light.text;
+  const theme =  Colors.light.text;
 
 
-  const cardBackground = colorScheme === 'dark' ? Colors.dark.background : Colors.light.background;
+  const cardBackground = Colors.light.background;
   const shadowColor = colorScheme === 'dark' ? '#000' : '#000';
 
   return (
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     width: 250,
     maxHeight:300,
     overflow: 'hidden', 
-    
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 6,

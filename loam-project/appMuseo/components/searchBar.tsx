@@ -8,17 +8,17 @@ import Colors from '@/constants/Colors';
 
 
 type SearchBarProps = {
-  onSearch?: (query: string) => void;
+  onSearch?: (query: string) => void; // Para "Enter"
+  onChangeQuery?: (query: string) => void; // Para "mientras escribe"
 };
 
-const SearchBar = ({ onSearch }: SearchBarProps) => {
+const SearchBar = ({ onSearch, onChangeQuery }: SearchBarProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const colorScheme = useColorScheme();
 
   const theme = Colors[colorScheme ?? 'light'];
   
-  
-  const containerBackgroundColor = colorScheme === 'dark' ? '#1e1e1e' : '#f0f0f0';
+  const containerBackgroundColor = colorScheme === 'dark' ? '#ffffffff' : '#f0f0f0';
   const iconColor = colorScheme === 'dark' ? '#888' : '#555';
   
   const handleClear = () => {
@@ -27,6 +27,14 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       onSearch('');
     }
   };
+
+  const handleTextChange = (text: string) => {
+    setSearchQuery(text); // Actualiza el estado local
+    if (onChangeQuery) {
+      onChangeQuery(text);
+    }
+  };
+
 
   return (
     <View style={[styles.container, { backgroundColor: containerBackgroundColor }]}>
@@ -40,11 +48,14 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       
       <TextInput
         placeholder="Buscar fosil, seccion, categoría..."
-        placeholderTextColor={iconColor} 
-        style={[styles.input, { color: theme.text }]}
+        placeholderTextColor={iconColor}
+        style={[styles.input, { color: Colors.light.text }]}
         value={searchQuery}
-        onChangeText={setSearchQuery}
-        onSubmitEditing={() => onSearch && onSearch(searchQuery)} 
+        onChangeText={(text) => {
+          setSearchQuery(text);
+          onSearch?.(text); 
+        }}
+        onSubmitEditing={() => onSearch && onSearch(searchQuery)}
       />
 
       {searchQuery.length > 0 && (
@@ -71,6 +82,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   input: {
+    outlineWidth: 0,
     flex: 1, 
     fontSize: 16,
     height: '100%',
