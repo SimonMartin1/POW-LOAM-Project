@@ -7,12 +7,10 @@ import {
   ImageSourcePropType
 } from 'react-native';
 
-// 1. IMPORTA TU COMPONENTE NEWSCARD
-// Asegúrate de que la ruta coincida con donde guardaste el archivo (ej. components/NoticeCard.tsx)
+
 import NewsCard from './NewsCard';
 
-// 2. ACTUALIZA EL TIPO DE DATOS
-// Ahora debe tener las propiedades que NewsCard espera
+
 export type GalleryItem = {
   id: string;
   title: string;
@@ -22,11 +20,11 @@ export type GalleryItem = {
   featured: boolean;
 };
 
-// --- CÁLCULOS DEL GRID ---
+
 const screenWidth = Dimensions.get('window').width*34/100;
 const numColumns = 2; 
 const gap = 1; 
-// Calculamos el ancho disponible para cada columna
+
 const availableWidth = screenWidth - (gap * (numColumns + 1));
 const itemSize = availableWidth / numColumns;
 
@@ -55,9 +53,8 @@ const GridGallery = ({ data, onPressItem }: { data: GalleryItem[]; onPressItem?:
       
       numColumns={numColumns}
       
-      // Espaciado del Grid
       contentContainerStyle={{ padding: gap }}
-      columnWrapperStyle={{ gap: gap }} // Espacio horizontal entre columnas
+      columnWrapperStyle={{ gap: gap }} 
       showsVerticalScrollIndicator={false}
     />
   );

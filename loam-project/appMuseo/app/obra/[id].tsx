@@ -12,7 +12,7 @@ const OBRAS_DB: MuseumDetailProps[] = [ // Usamos el tipo MuseumDetailProps para
     image: require('@/assets/images/fosil6.png'), // Imagen principal
     location: 'Sala de Minerales, Piso 2',
     description: 'Las geodas son estructuras huecas en las rocas, rellenas de cristales. Esta pieza en particular fue hallada en la región de Artigas y posee cristales de amatista de gran pureza.',
-    model3dUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Modelo 3D de prueba
+    model3dUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',   
     
     // --- DATOS DE LA GALERÍA (IMÁGENES Y VIDEO) ---
     gallery: [

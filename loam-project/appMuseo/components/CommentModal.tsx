@@ -16,17 +16,17 @@ type CommentModalProps = {
   visible: boolean;
   onClose: () => void;
   onSubmit: (text: string) => void;
-  isSubmitting?: boolean; // Para mostrar spinner mientras "envía"
+  isSubmitting?: boolean; 
 };
 
 const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: CommentModalProps) => {
   const [commentText, setCommentText] = useState('');
-  const MAX_CHARS = 250; // Requisito del TP
+  const MAX_CHARS = 250; 
 
   const handleSubmit = () => {
     if (commentText.trim().length > 0) {
       onSubmit(commentText);
-      setCommentText(''); // Limpiar el campo
+      setCommentText(''); 
     }
   };
 
@@ -37,14 +37,12 @@ const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: Comm
       visible={visible}
       onRequestClose={onClose}
     >
-      {/* Fondo oscuro semitransparente */}
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.centeredView}
       >
         <View style={styles.modalView}>
           
-          {/* Cabecera del Modal */}
           <View style={styles.header}>
             <Text style={styles.modalTitle}>Tu Opinión</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
@@ -54,7 +52,6 @@ const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: Comm
 
           <Text style={styles.label}>¿Qué te pareció esta obra?</Text>
 
-          {/* Área de Texto */}
           <TextInput
             style={styles.input}
             placeholder="Escribe tu comentario aquí..."
@@ -67,12 +64,10 @@ const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: Comm
             editable={!isSubmitting}
           />
 
-          {/* Contador de Caracteres */}
           <Text style={styles.counter}>
             {commentText.length}/{MAX_CHARS}
           </Text>
 
-          {/* Botón de Enviar */}
           <Pressable
             style={[
               styles.submitButton, 
@@ -88,7 +83,6 @@ const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: Comm
             )}
           </Pressable>
 
-          {/* Nota sobre moderación (Requisito del TP) */}
           <Text style={styles.moderationNote}>
             Nota: Tu comentario pasará por moderación antes de ser publicado.
           </Text>
@@ -102,7 +96,7 @@ const CommentModal = ({ visible, onClose, onSubmit, isSubmitting = false }: Comm
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'flex-end', // Aparece desde abajo
+    justifyContent: 'flex-end', 
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
@@ -141,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 15,
     height: 120,
-    textAlignVertical: 'top', // Para que el texto empiece arriba en Android
+    textAlignVertical: 'top', 
     fontSize: 16,
     backgroundColor: '#f9f9f9',
   },

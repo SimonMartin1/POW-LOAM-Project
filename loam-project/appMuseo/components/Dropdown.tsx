@@ -8,25 +8,24 @@ import {
   FlatList, 
   TouchableOpacity 
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // O Ionicons, lo que prefieras
+import { FontAwesome } from '@expo/vector-icons';
 
-// Definimos el tipo para las opciones
 export type DropdownOption = {
   label: string;
   value: string;
 };
 
 type DropdownProps = {
-  label?: string;          // Etiqueta opcional encima del dropdown
-  placeholder?: string;    // Texto cuando no hay nada seleccionado
-  data: DropdownOption[];  // Lista de opciones
-  selected: DropdownOption | null; // Opción actualmente seleccionada
-  onSelect: (item: DropdownOption) => void; // Función al seleccionar
+  label?: string;          
+  placeholder?: string;    
+  data: DropdownOption[];  
+  selected: DropdownOption | null; 
+  onSelect: (item: DropdownOption) => void; 
 };
 
 const Dropdown = ({ label, placeholder = "Seleccionar...", data, selected, onSelect }: DropdownProps) => {
   const [visible, setVisible] = useState(false);
-  const [dropdownTop, setDropdownTop] = useState(0); // Para posicionar el menú (avanzado) - Simplificado aquí usamos Modal centrado o inferior
+  const [dropdownTop, setDropdownTop] = useState(0);
 
   const toggleDropdown = () => {
     setVisible(!visible);
@@ -53,7 +52,6 @@ const Dropdown = ({ label, placeholder = "Seleccionar...", data, selected, onSel
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
       
-      {/* 1. El Botón que abre el menú */}
       <Pressable style={styles.button} onPress={toggleDropdown}>
         <Text style={[styles.buttonText, !selected && styles.placeholderText]}>
           {selected ? selected.label : placeholder}
@@ -61,7 +59,6 @@ const Dropdown = ({ label, placeholder = "Seleccionar...", data, selected, onSel
         <FontAwesome name={visible ? "chevron-up" : "chevron-down"} size={14} color="#666" />
       </Pressable>
 
-      {/* 2. El Modal que muestra la lista */}
       <Modal visible={visible} transparent animationType="fade">
         <Pressable style={styles.overlay} onPress={() => setVisible(false)}>
           <View style={styles.dropdown}>
@@ -95,11 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     height: 50,
-    borderRadius: 10,     // Mismo radio que tus Inputs
+    borderRadius: 10,     
     paddingHorizontal: 15,
     borderWidth: 1,
     borderColor: '#ccc',
-    // Sombra opcional para darle profundidad
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -115,14 +111,14 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)', // Fondo oscuro transparente
+    backgroundColor: 'rgba(0,0,0,0.5)', 
     justifyContent: 'center',
     alignItems: 'center',
   },
   dropdown: {
     backgroundColor: '#fff',
     width: '80%',
-    maxHeight: 300, // Altura máxima antes de hacer scroll
+    maxHeight: 300, 
     borderRadius: 10,
     paddingVertical: 10,
     elevation: 5,
