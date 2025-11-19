@@ -6,9 +6,7 @@ import { ImageIcon, PlusCircle, UserIcon } from "lucide-react";
 export default function Dashboard() {
     return (
         <AppLayout
-            breadcrumbs={[
-                { title: "Dashboard", href: "/dashboard" }
-            ]}
+            
         >
             <Head title="Dashboard" />
 

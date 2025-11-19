@@ -1,19 +1,15 @@
-// resources/js/layouts/app-layout.tsx
-
 import { ReactNode } from "react";
 import AppHeaderFixed from "@/components/AppHeaderFixed";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function PublicLayout({ children }: { children: ReactNode }) {
     return (
-        <div className="min-h-screen flex flex-col bg-[#F7F3EB] text-[#2A332D]">
+        <div className="min-h-screen flex flex-col bg-[#F2EFE9]">
 
-            {/* HEADER FIJO UNIFICADO */}
             <AppHeaderFixed />
 
-            {/* OFFSET por header fijo */}
+            {/* Empuje del header */}
             <div className="h-[120px]"></div>
 
-            {/* CONTENIDO */}
             <main className="flex-1">
                 {children}
             </main>
@@ -21,10 +17,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             {/* FOOTER */}
             <footer className="mt-20 w-full bg-[#2F2F2F] text-[#E5E5E5] py-10">
                 <div className="max-w-6xl mx-auto px-6 text-center">
-
-                    {/* Redes */}
                     <div className="flex justify-center gap-8 mb-6">
-                        {["linkedin", "facebook", "x", "instagram", "youtube"].map((s) => (
+                        {["linkedin", "facebook", "x", "instagram", "youtube"].map(s => (
                             <img
                                 key={s}
                                 src={`/images/social/${s}.png`}
@@ -38,7 +32,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     </p>
                 </div>
             </footer>
-
         </div>
     );
 }
