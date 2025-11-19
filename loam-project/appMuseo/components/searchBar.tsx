@@ -47,7 +47,7 @@ const SearchBar = ({ onSearch, onChangeQuery }: SearchBarProps) => {
       />
       
       <TextInput
-        placeholder="Buscar fosil, seccion, categoría..."
+        placeholder="Buscar"
         placeholderTextColor={iconColor}
         style={[styles.input, { color: Colors.light.text }]}
         value={searchQuery}
@@ -70,13 +70,13 @@ const SearchBar = ({ onSearch, onChangeQuery }: SearchBarProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
     paddingHorizontal: 12,
     marginVertical: 10,
-    marginHorizontal: 15,
-    height: 45,
+    height: '100%',
   },
   icon: {
     marginRight: 10,

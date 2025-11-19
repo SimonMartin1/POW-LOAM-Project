@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Para el ícono de estrella
 import Colors from '@/constants/Colors';
-
+import { router } from 'expo-router';
 // 1. Definimos los props para la tarjeta de noticia
 type NoticeCardProps = {
+  id: string;
   title: string;
   resume: string;
   date: string;
@@ -22,7 +23,8 @@ type NoticeCardProps = {
   onPress?: () => void;
 };
 
-const NewsCard = ({ 
+const NewsCard = ({
+    id,
     title,
     date, 
     resume,
@@ -37,9 +39,17 @@ const NewsCard = ({
   const textColor = '#4a4a4aff';
   const secondaryTextColor = '#000000ff';
 
+  const handlePress = () => {
+      if (onPress) {
+        onPress(); // Si el padre mandó una acción, úsala
+      } else {
+        router.push(`/noticia/${id}`); 
+      }
+    };
+
   return (
     <Pressable 
-      onPress={onPress}
+      onPress={handlePress}
       style={({ pressed }) => [
         styles.container,
         { backgroundColor: currentColors.background, shadowColor: shadowColor },

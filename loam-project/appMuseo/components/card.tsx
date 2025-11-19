@@ -9,26 +9,36 @@ import {
   ImageSourcePropType
 } from 'react-native';
 import Colors from '../constants/Colors';
-
+import { router } from 'expo-router'; // 1. Importamos el router
 
 type MuseoCardProps = {
+  id: string; // 2. Ahora el ID es obligatorio para saber a dónde ir
   title: string;
   category: string;
   imageUrl: ImageSourcePropType; 
-  onPress?: () => void; 
+  onPress?: () => void; // Opcional: por si quieres anular la navegación por defecto
 };
 
-const MuseoCard = ({ title, category, imageUrl, onPress }: MuseoCardProps) => {
+const MuseoCard = ({ id, title, category, imageUrl, onPress }: MuseoCardProps) => {
   const colorScheme = useColorScheme();
-  const theme =  Colors.light.text;
+  
+  // Ajuste de colores seguro por si Colors.light.text no existe directo
+  const themeText = colorScheme === 'light' ? Colors.dark.text : Colors.light.text;
+  const cardBackground = colorScheme === 'light' ? Colors.dark.background : Colors.light.background;
+  const shadowColor = colorScheme === 'light' ? '#000' : '#000';
 
-
-  const cardBackground = Colors.light.background;
-  const shadowColor = colorScheme === 'dark' ? '#000' : '#000';
+  // 3. Función interna que decide qué hacer
+  const handlePress = () => {
+    if (onPress) {
+      onPress(); // Si el padre mandó una acción, úsala
+    } else {
+      router.push(`/obra/${id}`); 
+    }
+  };
 
   return (
     <Pressable 
-      onPress={onPress} 
+      onPress={handlePress} // Usamos nuestra función interna
       style={({ pressed }) => [
         styles.container,
         { backgroundColor: cardBackground, shadowColor: shadowColor },
@@ -41,10 +51,10 @@ const MuseoCard = ({ title, category, imageUrl, onPress }: MuseoCardProps) => {
       />
       
       <View style={styles.content}>
-        <Text style={[styles.category, { color: theme }]}>
+        <Text style={[styles.category, { color: themeText }]}>
           {category.toUpperCase()}
         </Text>
-        <Text style={[styles.title, { color: theme }]}>
+        <Text style={[styles.title, { color: themeText }]}>
           {title}
         </Text>
       </View>
@@ -56,13 +66,14 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
     width: 250,
-    maxHeight:300,
+    maxHeight: 300,
     overflow: 'hidden', 
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
-    
     elevation: 5,
+    // Agregamos margen inferior para que la sombra se vea bien en listas
+    marginBottom: 5, 
   },
   pressed: {
     opacity: 0.8, 

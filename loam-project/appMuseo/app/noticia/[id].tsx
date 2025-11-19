@@ -1,13 +1,10 @@
-import { View, StyleSheet, FlatList, Text, ImageSourcePropType, ScrollView } from 'react-native';
-import NewsCard from '@/components/NewsCard';
-import GridGallery from '@/components/GridGallery';
-import { GalleryItem } from '@/components/GridGallery';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { useLocalSearchParams, Stack } from 'expo-router';
+import NewsDetailScreen, { NewsDetailProps } from '@/components/NewsDetailScreen';
 
 
-
-
-
-const NOTICIAS_DATA: GalleryItem[] = [
+const NOTICIAS_DB = [
   { 
     id: '1', 
     title: 'Nuevo Fosil en el Museo', 
@@ -58,48 +55,36 @@ const NOTICIAS_DATA: GalleryItem[] = [
   }
 ];
 
+export default function NewsPage() {
+  const { id } = useLocalSearchParams();
+  const [noticia, setNoticia] = useState<NewsDetailProps | null>(null);
 
+  useEffect(() => {
+    // Buscar la noticia por ID
+    const found = NOTICIAS_DB.find((item) => item.id === id);
+    if (found) setNoticia(found);
+  }, [id]);
 
-export default function TabOneScreen() {
-  
-  
-  const renderNew = ({ item }: { item: GalleryItem }) => (
-    <NewsCard
-      id={item.id}
-      title={item.title}
-      resume={item.resume}
-      date={item.date}
-      imageSource={item.image}
-      isFeatured={item.featured}
-      />
-  );
-  
   return (
-    <ScrollView style={styles.container}>
-      
-    <Text style={styles.sectionTitle}>Noticias</Text>
+    <>
+      {/* Configuración del Header (Oculto porque usamos nuestra propia imagen header) */}
+      <Stack.Screen options={{ headerShown: false }} />
 
-      
-      <GridGallery 
-        data={NOTICIAS_DATA} 
-      />
-
-    </ScrollView>
+      {!noticia ? (
+        <View style={styles.center}>
+          <Text>Noticia no encontrada...</Text>
+        </View>
+      ) : (
+        <NewsDetailScreen {...noticia} />
+      )}
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 15,
-    marginTop: 10,
-  },
-  listContainer: {
-    paddingHorizontal: 15, 
-    paddingVertical: 10, 
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

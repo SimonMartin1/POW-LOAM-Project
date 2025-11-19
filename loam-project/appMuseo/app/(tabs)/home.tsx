@@ -98,22 +98,22 @@ const NOTICIAS_DATA: Noticia[] = [
 export default function TabOneScreen() {
   
   const renderCard = ({ item }: { item: Obra }) => (
-    <MuseoCard 
+    <MuseoCard
+      id={item.id}
       title={item.title}
       category={item.category}
       imageUrl={item.image}
-      onPress={() => console.log("Ir a detalles de:", item.title)}
     />
   );
 
   const renderNew = ({ item }: { item: Noticia }) => (
     <NewsCard
+      id={item.id}
       title={item.title}
       resume={item.resume}
       date={item.date}
       imageSource={item.image}
       isFeatured={item.featured}
-      onPress={() => console.log('Ir a noticia:', item.id)}
       />
   );
 

@@ -34,18 +34,24 @@ export default function Layout() {
         options={{
           title: 'index',
           drawerItemStyle: { display: 'none' },
+          headerShown: useClientOnlyValue(true, false),
+          headerRight: () => null,
         }}/>
       <Drawer.Screen
         name="login"
         options={{
           title: 'login',
           drawerItemStyle: { display: 'none' },
+          headerShown: useClientOnlyValue(true, false),
+          headerRight: () => null,
         }}/>
       <Drawer.Screen
         name="register"
         options={{
           title: 'register',
           drawerItemStyle: { display: 'none' },
+          headerShown: useClientOnlyValue(true, false),
+          headerRight: () => null,
         }}/>
       <Drawer.Screen
         name="home"

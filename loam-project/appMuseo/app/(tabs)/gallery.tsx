@@ -1,7 +1,10 @@
-import { View, StyleSheet, FlatList, Text, ImageSourcePropType } from 'react-native';
+import { View, StyleSheet, FlatList, Text, ImageSourcePropType, ScrollView } from 'react-native';
 import SearchBar from '@/components/searchBar';
 import MuseoCard from '@/components/card';
 import React, { useState, useEffect } from 'react';
+import Dropdown from '@/components/Dropdown';
+import { DropdownOption } from '@/components/Dropdown';
+import MuseumDetailScreen from '@/components/MuseumDetailScreen';
 
 
 //Espacio entre cards
@@ -42,32 +45,34 @@ const OBRAS_MUSEO: Obra[] = [
   },
 ];
 
+
+const CATEGORIAS = [
+  { label: 'Categoria', value: 'category' },
+  { label: 'Fecha', value: 'date' },
+  { label: 'Autor', value: 'author' },
+  { label: 'Palabras Clave', value: 'keywords' },
+];
+
 export default function TabOneScreen() {
-  
   const renderCard = ({ item }: { item: Obra }) => (
-    <MuseoCard 
+    <MuseoCard
+      id={item.id}
       title={item.title}
       category={item.category}
       imageUrl={item.image}
-      onPress={() => console.log("Ir a detalles de:", item.title)}
     />
-  )
+  );
+
   const [filteredObras, setFilteredObras] = useState(OBRAS_MUSEO);
   const [query, setQuery] = useState('');
-  const filtered = OBRAS_MUSEO.filter((obra) =>
-  obra.title.toLowerCase().includes(query.toLowerCase()) ||
-  obra.category.toLowerCase().includes(query.toLowerCase()));
-
+  
+  // Lógica de filtrado
   useEffect(() => {
-    // Esta función se ejecutará cada vez que 'query' cambie
     if (query === '') {
       setFilteredObras(OBRAS_MUSEO);
     } else {
       const lowerCaseQuery = query.toLowerCase();
-
-      // Filtra Obras
       const newFilteredObras = OBRAS_MUSEO.filter(item => {
-        // Busca en título y categoría
         return item.title.toLowerCase().includes(lowerCaseQuery) ||
                item.category.toLowerCase().includes(lowerCaseQuery);
       });
@@ -75,33 +80,44 @@ export default function TabOneScreen() {
     }
   }, [query]);
 
+  const [selectedCategory, setSelectedCategory] = useState<DropdownOption | null>(null);
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       
-    <SearchBar onSearch={(text) => setQuery(text)} />
+      <View style={styles.filterContainer}>
+        <View style={styles.searchWrapper}>
+          <SearchBar onSearch={(text) => setQuery(text)} />
+        </View>
+        
+        <View style={styles.dropdownWrapper}>
+          <Dropdown
+            placeholder="Categoria" 
+            data={CATEGORIAS}
+            selected={selectedCategory}
+            onSelect={setSelectedCategory} 
+          />
+        </View>
+      </View>
 
       <Text style={styles.sectionTitle}>Nuestras Obras de Artes</Text>
 
-      
       <FlatList
         data={filteredObras}
         renderItem={renderCard}
         keyExtractor={(item) => item.id}
-        
-        
-        horizontal={true} 
         showsHorizontalScrollIndicator={false} 
         
         contentContainerStyle={styles.listContainer} 
         ItemSeparatorComponent={SeparatorComponent} 
       />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   sectionTitle: {
     fontSize: 20,
@@ -113,4 +129,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15, 
     paddingVertical: 10, 
   },
+  filterContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+    paddingHorizontal: 15, 
+    gap: 10, 
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  searchWrapper: {
+    flex: 1,
+    height: '100%', // Ojo con esto, a veces height: 100% en flex children da problemas, mejor quítalo si no hace falta
+  },
+  dropdownWrapper: {
+    width: 140, // Ajuste de ancho para que entre bien
+  }
 });

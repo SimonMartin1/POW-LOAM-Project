@@ -23,11 +23,18 @@ export default function Login() {
       <Text style={[styles.subtitle, { color: currentColors.text }]}>
         Disfrute la Experiencia
       </Text>
-      
+      <Text style={styles.input1}>
+        Usuario
+      </Text>
       <Input
         placeHolder={'Ingrese Nombre'}
       />
-
+      <Text style={styles.input2}>
+        Contraseña
+      </Text>
+      <Input
+        placeHolder={'Ingrese Contraseña'}
+      />
       <Link href="/login" asChild>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Registrarme</Text>
@@ -93,4 +100,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  input1:{
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  input2:{
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: '500',
+  }
 });

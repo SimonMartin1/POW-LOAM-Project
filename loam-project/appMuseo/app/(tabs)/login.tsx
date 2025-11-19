@@ -27,6 +27,10 @@ export default function Login() {
         placeHolder={'Ingrese Nombre'}
       />
 
+      <Input
+        placeHolder={'Ingrese Contraseña'}
+      />
+
       <Link href="/home" asChild>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Iniciar Sesion</Text>
