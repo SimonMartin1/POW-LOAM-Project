@@ -31,7 +31,7 @@ class ImagenesController extends Controller
             'descripcion' => 'required|string',
             'autor' => 'required|string|max:255',
             'fecha_creacion' => 'required|date',
-            'imagen' => 'required|image|max:2048', // max:2048 = 2MB
+            'imagen' => 'required|image|max:20480', // max:20480 = 20MB
         ]);
 
         $path = $request->file('imagen')->store('imagenes', 'public');

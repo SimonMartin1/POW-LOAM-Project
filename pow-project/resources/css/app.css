@@ -102,3 +102,15 @@
     }
 
 }
+
+/* resources/css/app.css */
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    display: inline-block;
+    animation: marquee var(--animation-duration, 60s) linear infinite;
+}
