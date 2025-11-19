@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ImagenesController;
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\News;
 use App\Models\Imagenes;
 
 /**
@@ -21,7 +23,8 @@ Route::get('/', function () {
         ->get();
 
     return Inertia::render('welcome', [
-        'imagenes' => $imagenes
+        'imagenes' => $imagenes,
+        'noticias' => News::latest('published_at')->take(4)->get()
     ]);
 })->name('home');
 
@@ -29,6 +32,8 @@ Route::get('/', function () {
 // Galería pública
 Route::get('/galeria', [ImagenesController::class, 'galeria'])->name('galeria.public');
 Route::get('/galeria/{id}', [ImagenesController::class, 'detalle'])->name('galeria.public.detalle');
+// Visitas 
+Route::post('/visitas/solicitar', [VisitController::class, 'store'])->name('visits.store');
 
 
 /**
