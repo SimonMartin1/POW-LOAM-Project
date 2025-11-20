@@ -4,10 +4,9 @@ import MuseoCard from '@/components/card';
 import NewsCard from '@/components/NewsCard';
 import LinkButton from '@/components/LinkButton';
 import { Text, View } from '@/components/Themed'; 
+import { getBaseUrl } from '../config/config';
 
-// CONFIGURACIÓN
-const IP = '192.168.1.36'; 
-const BASE_URL = `http://${IP}:8000`;
+const BASE_URL = getBaseUrl();
 
 // Espacio entre cards
 const SeparatorComponent = () => <View style={{ width: 15 }} />;
@@ -55,18 +54,6 @@ export default function TabOneScreen() {
       }));
       setNoticias(noticiasFormateadas);
 
-      // 2. Traer Obras (Galería)
-      const resObras = await fetch(`${BASE_URL}/api/imagenes`);
-      const dataObras = await resObras.json();
-
-      const obrasFormateadas = dataObras.map((item: any) => ({
-        id: item.id.toString(),
-        title: item.nombre,
-        category: item.autor || 'Colección', // Usamos autor como categoría por ahora
-        image: { uri: getImageUrl(item.url_imagen, 'galeria') }
-      }));
-      setObras(obrasFormateadas);
-
     } catch (error) {
       console.error("Error cargando datos:", error);
     } finally {
@@ -89,14 +76,7 @@ export default function TabOneScreen() {
     return `${BASE_URL}/${path}`;
   };
 
-  const renderCard = ({ item }: { item: Obra }) => (
-    <MuseoCard
-      id={item.id}
-      title={item.title}
-      category={item.category}
-      imageUrl={item.image}
-    />
-  );
+
 
   const renderNew = ({ item }: { item: Noticia }) => (
     <NewsCard
@@ -126,26 +106,8 @@ export default function TabOneScreen() {
           data={noticias}
           renderItem={renderNew}
           keyExtractor={(item) => item.id}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
           ListEmptyComponent={<Text style={{marginLeft: 15, color: '#888'}}>No hay noticias cargadas.</Text>}
         />
-
-        <LinkButton show_text={"Ver Mas"} colour={'#ffffffff'} route={'/news'}/>
-
-        <Text style={styles.sectionTitle}>Destacados</Text>
-        <FlatList
-          data={obras}
-          renderItem={renderCard}
-          keyExtractor={(item) => item.id}
-          horizontal={true} 
-          showsHorizontalScrollIndicator={false} 
-          contentContainerStyle={styles.listContainer} 
-          ItemSeparatorComponent={SeparatorComponent} 
-          ListEmptyComponent={<Text style={{marginLeft: 15, color: '#888'}}>No hay obras cargadas.</Text>}
-        />
-        
-        <LinkButton show_text={"Ver Mas"} colour={'#ffffffff'} route={'/gallery'}/>
       </ScrollView>
     </View>
   );

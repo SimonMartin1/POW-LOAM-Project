@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   StyleSheet, 
   ScrollView, 
   Pressable,
-  useColorScheme
+  Alert // Importamos Alert por si acaso
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import CustomSwitch from '@/components/CustomSwitch';
-import { useThemeColor, View, Text } from '@/components/Themed'; 
+import { View, Text } from '@/components/Themed'; 
 import { useSettings } from '@/context/SettingsContext';
+
+// IMPORTANTE: Importa tu servicio aquí. 
+// Asegúrate que la ruta sea correcta según tu estructura de carpetas.
+import { BiometricService } from '@/services/biometricService'; 
 
 const SettingsSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <View style={styles.section}>
@@ -20,7 +24,6 @@ const SettingsSection = ({ title, children }: { title: string, children: React.R
     </View>
   </View>
 );
-
 
 type SwitchRowProps = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -48,6 +51,7 @@ const SwitchRow = ({ icon, label, value, onValueChange, isLast }: SwitchRowProps
   );
 };
 
+// ... (LinkRow se mantiene igual) ...
 type LinkRowProps = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
@@ -77,13 +81,54 @@ const LinkRow = ({ icon, label, onPress, isLast }: LinkRowProps) => {
   );
 };
 
-
 export default function SettingsScreen() {
 
+  // Estados locales (Idealmente esto vendría de tu SettingsContext para persistencia)
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationEnabled, setLocationEnabled] = useState(true);
+  
+  // Estado para la biometría
   const [biometricsEnabled, setBiometricsEnabled] = useState(false);
+
+  /**
+   * LÓGICA DE CONEXIÓN
+   * Esta función maneja el intento de cambio del switch
+   */
+  const handleBiometricToggle = async (newValue: boolean) => {
+    
+    // CASO 1: El usuario quiere ACTIVAR la biometría
+    if (newValue === true) {
+      // A. Verificamos si el celular tiene sensor y huellas guardadas
+      const canUse = await BiometricService.checkHardware();
+      
+      if (!canUse) {
+        // El servicio ya muestra una alerta, así que solo detenemos el flujo
+        // y nos aseguramos que el switch quede apagado
+        setBiometricsEnabled(false);
+        return;
+      }
+
+      // B. Pedimos al usuario que ponga su huella para confirmar que es él
+      const success = await BiometricService.authenticate("Verifica tu identidad para activar");
+
+      if (success) {
+        setBiometricsEnabled(true);
+        // AQUÍ DEBERÍAS GUARDAR EN ASYNCSTORAGE O CONTEXTO
+        // ej: saveSettings({ useBiometrics: true });
+      } else {
+        // Si falla o cancela, el switch se queda apagado
+        setBiometricsEnabled(false);
+      }
+    } 
+    
+    // CASO 2: El usuario quiere DESACTIVAR
+    else {
+      // Simplemente desactivamos (o podrías pedir huella para desactivar también)
+      setBiometricsEnabled(false);
+      // AQUÍ DEBERÍAS ACTUALIZAR ASYNCSTORAGE O CONTEXTO
+    }
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -111,11 +156,12 @@ export default function SettingsScreen() {
       </SettingsSection>
 
       <SettingsSection title="Seguridad">
+        {/* Aquí conectamos nuestra nueva función */}
         <SwitchRow 
           icon="finger-print" 
           label="Usar Biometría (Huella/FaceID)" 
           value={biometricsEnabled} 
-          onValueChange={setBiometricsEnabled} 
+          onValueChange={handleBiometricToggle} 
         />
         <LinkRow 
           icon="lock-closed" 
@@ -125,6 +171,7 @@ export default function SettingsScreen() {
         />
       </SettingsSection>
 
+      {/* ... Resto del código (Cuenta, Versión, Estilos) igual ... */}
       <SettingsSection title="Cuenta">
         <LinkRow 
           icon="person" 
@@ -150,6 +197,7 @@ export default function SettingsScreen() {
   );
 }
 
+// ... (Tus estilos styles se mantienen igual)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -158,14 +206,6 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 40,
   },
-  headerTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#000',
-  },
-  
-  
   section: {
     marginBottom: 25,
   },
@@ -182,8 +222,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden', 
   },
-
-
   row: {
     flexDirection: 'row',
     alignItems: 'center',
