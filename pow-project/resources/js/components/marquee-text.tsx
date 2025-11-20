@@ -9,7 +9,7 @@ const MarqueeText: React.FC<MarqueeTextProps> = ({ messages, speed = 'normal' })
     // Duplicamos los mensajes para el efecto infinito
     const duplicatedMessages = [...messages, ...messages]; 
 
-    let animationDuration = '60s';
+    let animationDuration = '20s';
     if (speed === 'slow') animationDuration = '90s';
     if (speed === 'fast') animationDuration = '40s';
 

@@ -67,7 +67,10 @@ export default function Agregar() {
         )}
       <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-[#3A5A40] border border-[#D0C7B8] shadow-sm hover:bg-[#EEE7DC] transition"
+          className="inline-flex items-center gap-2
+                        text-[#3A5A40] font-semibold mb-10
+                        px-5 py-2 rounded-full border border-[#c4c4c4]
+                        bg-white hover:bg-[#ebebeb] transition shadow-sm"
       >
           ← Volver
       </Link>
@@ -114,7 +117,7 @@ export default function Agregar() {
                       {date ? format(date, "PPP", { locale: es }) : "Seleccionar fecha"}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 bg-white shadow-lg border border-gray-200 rounded-xl" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
@@ -127,6 +130,7 @@ export default function Agregar() {
                         }
                       }}
                       captionLayout="dropdown"
+                      fromYear={1600}
                     />
                   </PopoverContent>
                 </Popover>
