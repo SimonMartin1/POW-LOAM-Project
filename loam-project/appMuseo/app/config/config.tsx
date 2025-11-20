@@ -6,7 +6,7 @@
  */
 export const getBaseUrl = (): string => {
     // 1. Intentamos leer la variable con el prefijo de Expo
-    const url = 'http://localhost:8000'
+    const url = 'http://192.168.1.38:8000'
 
     // 2. Validación de Seguridad:
     // Si la variable no existe (es undefined o string vacío), lanzamos un error
