@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AppHeader from "@/components/AppHeader"; 
 import Carousel from "@/components/carousel"; 
-import MarqueeText from "@/components/marquee-text"; // Asegúrate de tener este componente creado
+import MarqueeText from "@/components/marquee-text"; 
 import { Link } from "@inertiajs/react";
+import AboutUs from '@/components/aboutus';
+import VisitCTA from '@/components/visitcta';
+import NewsSection from "@/components/news-section";
 
 interface Imagen {
     id: number;
@@ -12,7 +15,15 @@ interface Imagen {
     url_imagen: string;
 }
 
-export default function Welcome({ imagenes = [] }: { imagenes: Imagen[] }) {
+interface NewsItem {
+    id: number;
+    title: string;
+    excerpt: string;
+    image_path: string;
+    published_at: string;
+}
+
+export default function Welcome({ imagenes = [], noticias = [] }: { imagenes: Imagen[], noticias: NewsItem[] }){
     
     const MAX_HEIGHT = 280; 
     const MIN_HEIGHT = 110; 
@@ -39,11 +50,8 @@ export default function Welcome({ imagenes = [] }: { imagenes: Imagen[] }) {
 
     // MENSAJES PARA LA CINTA
     const marqueeMessages = [
-        "Juro que todo esto sucedió en un día. Obras 2010—2024 . MALBA—PUERTOS . Sede Escobar",
-        "Próxima inauguración: 'El Arte de La Pampa' - 15 de Diciembre",
-        "Horario de verano: Lunes a Sábado de 9 a 18 hs. Domingos de 10 a 16 hs.",
-        "Dirección: Av. San Martín Oeste 1234, Santa Rosa, La Pampa.",
-        "Entrada gratuita hasta el 31 de Enero. ¡Te esperamos!",
+        "Entrada Libre y Gratuita.",
+        "Horarios: Lunes a Viernes de 8 a 13hs. Y de 14 a 18hs. Sábado y Domingo de 18 a 21hs.",
     ];
 
     return (
@@ -120,6 +128,10 @@ export default function Welcome({ imagenes = [] }: { imagenes: Imagen[] }) {
                     </div>
                 )}
 
+                <AboutUs />
+                <VisitCTA />
+                <NewsSection news={noticias} />
+
                 {/* FOOTER */}
                 <footer className="bg-[#2F2F2F] text-[#E5E5E5] py-16 border-t border-[#3A5A40] mt-0">
                     <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
@@ -128,7 +140,7 @@ export default function Welcome({ imagenes = [] }: { imagenes: Imagen[] }) {
                                 <img 
                                     key={social}
                                     src={`/images/social/${social}.png`}
-                                    className="h-6 w-6 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer filter invert"
+                                    className="h-6 w-6 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer"
                                     alt={social}
                                 />
                             ))}

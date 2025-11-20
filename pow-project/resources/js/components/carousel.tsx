@@ -84,7 +84,7 @@ export default function Carousel({ items }: { items: Imagen[] }) {
                     href={`/obras/${currentItem.id}`}
                     className="hidden md:inline-flex items-center justify-center h-14 px-10 border border-white/30 bg-white/10 hover:bg-white hover:text-black text-white font-bold text-sm uppercase tracking-widest transition-all duration-300 backdrop-blur-sm"
                 >
-                    Explorar Obra
+                    Explorar Obras
                 </Link>
             </div>
 

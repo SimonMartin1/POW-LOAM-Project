@@ -13,7 +13,7 @@ import {
 import {
   Table, TableHeader, TableBody, TableHead, TableRow, TableCell, TableCaption,
 } from "@/components/ui/table";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, Search, X, ArrowLeft } from "lucide-react";
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: "Imagenes", href: "/imagenes" }];
 
@@ -111,21 +111,17 @@ export default function Index() {
       {/* Toolbar */}
       <div className="m-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Link
-            href="/dashboard"
-            className="
-                inline-flex items-center gap-2 
-                px-4 py-2 rounded-xl 
-                bg-white text-[#3A5A40] 
-                border border-[#D0C7B8]
-                shadow-sm
-                hover:bg-[#EEE7DC]
-                transition
-            "
-        >
-            ← Volver
+          href="/dashboard"
+          className="
+            inline-flex items-center gap-2
+            text-[#3A5A40] font-semibold mb-10
+            px-5 py-2 rounded-full border border-[#c4c4c4]
+            bg-white hover:bg-[#ebebeb] transition shadow-sm"
+                >
+              <ArrowLeft size={16} /> Volver
         </Link>
 
-        <h1 className="text-xl font-semibold">Imágenes</h1>
+        <h1 className="text-xl font-semibold">Panel de Obras cargadas</h1>
 
         <div className="flex w-full items-center gap-2 sm:w-auto">
           {/* Search */}
@@ -231,7 +227,11 @@ export default function Index() {
 
                   {columns.descripcion && (
                     <TableCell className="text-slate-600 dark:text-slate-300">
-                      <span className="line-clamp-2">{img.descripcion}</span>
+                      <span className="line-clamp-2 ">{img.descripcion
+                              ? img.descripcion.length > 100
+                                  ? img.descripcion.substring(0, 100) + "…"
+                                  : img.descripcion
+                              : "-"}</span>
                     </TableCell>
                   )}
 
