@@ -9,11 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Testing\Fluent\Concerns\Has;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
