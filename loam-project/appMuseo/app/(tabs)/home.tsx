@@ -4,10 +4,9 @@ import MuseoCard from '@/components/card';
 import NewsCard from '@/components/NewsCard';
 import LinkButton from '@/components/LinkButton';
 import { Text, View } from '@/components/Themed'; 
-
+import { getBaseUrl } from '../config/config';
 // CONFIGURACIÓN
-const IP = '192.168.1.38'; 
-const BASE_URL = `http://${IP}:8000`;
+const BASE_URL = getBaseUrl();
 
 // Espacio entre cards
 const SeparatorComponent = () => <View style={{ width: 15 }} />;

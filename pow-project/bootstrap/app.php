@@ -18,14 +18,27 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        
+        // 1. Mantienes tu configuración de cookies actual
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
+        // 2. AQUÍ AGREGAMOS LA EXCEPCIÓN DE CSRF PARA QUE LA APP MÓVIL PUEDA ENTRAR
+        $middleware->validateCsrfTokens(except: [
+            'login',
+            'register',
+            'logout',
+            'api/*', 
+            'sanctum/csrf-cookie'
+        ]);
+
+        // 3. Mantienes tus alias de Spatie
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
         ]);
 
+        // 4. Mantienes tu configuración Web/Inertia
         $middleware->web(append: [
             HandleAppearance::class,
             HandleInertiaRequests::class,

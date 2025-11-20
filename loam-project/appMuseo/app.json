@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "appMuseo",
-    "slug": "appMuseo",
+    "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -34,6 +34,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "87993ba6-4ebc-42cd-86ef-d2d03c9f121b"
+      }
+    },
+    "owner": "simonmartin02"
   }
 }
