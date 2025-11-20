@@ -29,7 +29,7 @@ export default function AuthSplitLayout({
                     muted
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover"
-                    src="/videos/videoLoguin.mp4"
+                    src="/videos/videoLoguin2.mp4"
                 />
 
                 {/* CAPA DE OSCURECIMIENTO SUAVE */}

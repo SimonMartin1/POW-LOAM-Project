@@ -25,7 +25,7 @@ interface NewsItem {
 
 export default function Welcome({ imagenes = [], noticias = [] }: { imagenes: Imagen[], noticias: NewsItem[] }){
     
-    const MAX_HEIGHT = 280; 
+    const MAX_HEIGHT = 320; 
     const MIN_HEIGHT = 110; 
     
     const [headerHeight, setHeaderHeight] = useState(MAX_HEIGHT);
@@ -84,13 +84,13 @@ export default function Welcome({ imagenes = [], noticias = [] }: { imagenes: Im
                     </p>
                 </section>
 
-                {/* --- AQUÍ ESTÁ LA CINTA (MARQUEE) --- */}
-                {/* 'my-16' agrega mucho espacio arriba y abajo para que no esté pegada */}
+                
+                
                 <div className="w-full my-16">
                      <MarqueeText messages={marqueeMessages} speed="normal" />
                 </div>
 
-                {/* SECCIÓN CARRUSEL FULL WIDTH */}
+                
                 {imagenes.length > 0 ? (
                     <section className="w-full pb-20">
                         <div className="px-6 max-w-6xl mx-auto mb-12 flex items-end justify-between">
