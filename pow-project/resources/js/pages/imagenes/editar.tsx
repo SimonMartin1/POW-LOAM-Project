@@ -142,12 +142,13 @@ export default function Editar({ imagen }: Props) {
                       {date ? format(date, "PPP", { locale: es }) : "Seleccionar fecha"}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 bg-white shadow-lg border border-gray-200 rounded-xl" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
                       onSelect={(d) => setDate(d)}
                       captionLayout="dropdown"
+                      fromYear={1600}
                     />
                   </PopoverContent>
                 </Popover>
