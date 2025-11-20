@@ -1,9 +1,14 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; // Importante para el Drawer
 import { Drawer } from 'expo-router/drawer';
+import { DrawerToggleButton } from '@react-navigation/drawer';
+
+// Componentes y Hooks
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { DrawerToggleButton } from '@react-navigation/drawer';
+
+// Contexto de Autenticación
 import { AuthProvider } from '@/context/AuthContext'; 
 
 function LogoTitle() {
@@ -20,104 +25,123 @@ export default function Layout() {
   const colorScheme = useColorScheme();
 
   return (
-    <AuthProvider> 
-      <Drawer
-        screenOptions={{
-          drawerPosition: 'right',
-          headerShown: useClientOnlyValue(false, true),
-          headerRight: () => <DrawerToggleButton />,
-          headerLeft: () => null, 
-          swipeEnabled: false, 
-        }}>
+    // 1. AuthProvider: Provee la lógica de login a toda la app
+    <AuthProvider>
+      {/* 2. GestureHandler: Necesario para que el menú deslice bien */}
+      <GestureHandlerRootView style={{ flex: 1 }}>
         
-        <Drawer.Screen
-          name="index"
-          options={{
-            title: 'index',
-            drawerItemStyle: { display: 'none' },
-            headerShown: useClientOnlyValue(true, false),
-            headerRight: () => null,
-          }}/>
-        
-        <Drawer.Screen
-          name="login"
-          options={{
-            title: 'login',
-            drawerItemStyle: { display: 'none' },
-            headerShown: useClientOnlyValue(true, false),
-            headerRight: () => null,
-            swipeEnabled: false, // Recomendado: No permitir abrir menú en login
-          }}/>
+        <Drawer
+          screenOptions={{
+            drawerPosition: 'right',
+            headerShown: useClientOnlyValue(false, true),
+            headerRight: () => <DrawerToggleButton />,
+            headerLeft: () => null, 
+            drawerActiveTintColor: '#F79A2B', // Color naranja activo (opcional, para que combine)
+            drawerActiveBackgroundColor: '#FFF3E0', // Fondo suave al seleccionar
+          }}>
           
-        <Drawer.Screen
-          name="twoFactor"
-          options={{
-            title: '2FA',
-            drawerItemStyle: { display: 'none' },
-            headerShown: useClientOnlyValue(true, false),
-            headerRight: () => null,
-            swipeEnabled: false, // Recomendado: No permitir abrir menú en 2FA
-          }}/>
+          {/* --- PANTALLAS OCULTAS DEL MENÚ (Login, Registro, etc) --- */}
+          
+          <Drawer.Screen
+            name="index" // Pantalla de Bienvenida
+            options={{
+              title: 'Bienvenida',
+              drawerItemStyle: { display: 'none' }, // Oculto del menú
+              headerShown: false,
+              swipeEnabled: false,
+            }}/>
+          
+          <Drawer.Screen
+            name="login"
+            options={{
+              title: 'Iniciar Sesión',
+              drawerItemStyle: { display: 'none' },
+              headerShown: false,
+              swipeEnabled: false, // No abrir menú en login
+            }}/>
+            
+          <Drawer.Screen
+            name="twoFactor"
+            options={{
+              title: 'Verificación 2FA',
+              drawerItemStyle: { display: 'none' },
+              headerShown: false,
+              swipeEnabled: false,
+            }}/>
 
-        <Drawer.Screen
-          name="register"
-          options={{
-            title: 'register',
-            drawerItemStyle: { display: 'none' },
-            headerShown: useClientOnlyValue(true, false),
-            headerRight: () => null,
-            swipeEnabled: false,
-          }}/>
+          <Drawer.Screen
+            name="register"
+            options={{
+              title: 'Registro',
+              drawerItemStyle: { display: 'none' },
+              headerShown: false,
+              swipeEnabled: false,
+            }}/>
 
-        <Drawer.Screen
-          name="home"
-          options={{
-            title: 'Inicio',
-            headerTitle: () => <LogoTitle/>,
-            swipeEnabled: true, // Habilitamos el gesto aquí
-            drawerIcon: ({ color }) => <Image
-                source={require('@/assets/icons/home.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          }}
-        />
-        <Drawer.Screen
-          name="gallery"
-          options={{
-            title: 'Galeria',
-            headerTitle: () => <LogoTitle/>,
-            swipeEnabled: true,
-            drawerIcon: ({ color }) => <Image
-                source={require('@/assets/icons/gallery.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          }}
-        />
-        <Drawer.Screen
-          name="qr_scan"
-          options={{
-            title: 'Escanear',
-            swipeEnabled: true,
-            drawerIcon: ({ color }) => <Image
-                source={require('@/assets/icons/qr_code_scanner.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          }}
-        />
-        <Drawer.Screen
-          name="news"
-          options={{
-            title: 'Noticias',
-            headerTitle: () => <LogoTitle/>,
-            swipeEnabled: true,
-            drawerIcon: ({ color }) => <Image
-                source={require('@/assets/icons/news.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          }}
-        />
-        <Drawer.Screen
-          name="profile"
-          options={{
-            title: 'Configuracion',
-            swipeEnabled: true,
-            drawerIcon: ({ color }) => <Image
-                source={require('@/assets/icons/profile.png')} style={{ width: 28, height: 28, tintColor: color }}/>,
-          }}
-        />
-      </Drawer>
+          {/* --- PANTALLAS VISIBLES EN EL MENÚ --- */}
+
+          <Drawer.Screen
+            name="home"
+            options={{
+              title: 'Inicio',
+              headerTitle: () => <LogoTitle/>,
+              swipeEnabled: true,
+              drawerIcon: ({ color }) => (
+                <Image source={require('@/assets/icons/home.png')} style={{ width: 24, height: 24, tintColor: color }}/>
+              ),
+            }}
+          />
+          
+          <Drawer.Screen
+            name="news"
+            options={{
+              title: 'Noticias',
+              headerTitle: () => <LogoTitle/>,
+              swipeEnabled: true,
+              drawerIcon: ({ color }) => (
+                <Image source={require('@/assets/icons/news.png')} style={{ width: 24, height: 24, tintColor: color }}/>
+              ),
+            }}
+          />
+
+          <Drawer.Screen
+            name="gallery"
+            options={{
+              title: 'Galería',
+              headerTitle: () => <LogoTitle/>,
+              swipeEnabled: true,
+              drawerIcon: ({ color }) => (
+                <Image source={require('@/assets/icons/gallery.png')} style={{ width: 24, height: 24, tintColor: color }}/>
+              ),
+            }}
+          />
+          
+          <Drawer.Screen
+            name="qr_scan"
+            options={{
+              title: 'Escanear QR',
+              headerTitle: () => <LogoTitle/>,
+              swipeEnabled: true,
+              drawerIcon: ({ color }) => (
+                <Image source={require('@/assets/icons/qr_code_scanner.png')} style={{ width: 24, height: 24, tintColor: color }}/>
+              ),
+            }}
+          />
+          
+          <Drawer.Screen
+            name="profile"
+            options={{
+              title: 'Configuración',
+              headerTitle: () => <LogoTitle/>,
+              swipeEnabled: true,
+              drawerIcon: ({ color }) => (
+                <Image source={require('@/assets/icons/profile.png')} style={{ width: 24, height: 24, tintColor: color }}/>
+              ),
+            }}
+          />
+
+        </Drawer>
+      </GestureHandlerRootView>
     </AuthProvider> 
   );
 }
