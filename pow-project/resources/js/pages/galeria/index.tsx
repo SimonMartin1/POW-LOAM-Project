@@ -89,7 +89,7 @@ export default function Galeria({ imagenes }: { imagenes: Imagen[] }) {
 
     return (
         <AppLayout breadcrumbs={[{ title: "Galería", href: "/galeria" }]}>
-            <Head title="Galería" />
+            <Head title="MUSEO NATURAL DE LA PAMPA" />
 
             <div className="bg-[#F7F3EB] min-h-screen px-6 py-12 max-w-7xl mx-auto">
 
