@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import {StyleSheet, Image, Pressable } from 'react-native';
 import { Link } from 'expo-router';
-
+import { Text, View } from '@/components/Themed'; 
 import Colors from '@/constants/Colors';
 
 export default function WelcomeScreen() {

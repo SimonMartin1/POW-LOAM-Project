@@ -1,9 +1,8 @@
-import { View, StyleSheet, FlatList, Text, ScrollView,ImageSourcePropType } from 'react-native';
+import {StyleSheet, FlatList, ScrollView,ImageSourcePropType } from 'react-native';
 import MuseoCard from '@/components/card';
 import NewsCard from '@/components/NewsCard';
 import LinkButton from '@/components/LinkButton';
-import { useEffect, useState } from 'react';
-
+import { Text, View } from '@/components/Themed'; 
 
 //Espacio entre cards
 const SeparatorComponent = () => <View style={{ width: 15 }} />;
@@ -132,9 +131,7 @@ export default function TabOneScreen() {
       />
 
       <LinkButton 
-      show_text={"Ver Mas"}
-      colour={'#000'}
-      route={'/news'}/>
+      show_text={"Ver Mas"}colour={'#ffffffff'} route={'/news'}/>
 
 
       <Text style={styles.sectionTitle}>Destacados</Text>
@@ -153,7 +150,7 @@ export default function TabOneScreen() {
         ItemSeparatorComponent={SeparatorComponent} 
       />
       
-      <LinkButton show_text={"Ver Mas"} colour={'#000'} route={'/gallery'}/>
+      <LinkButton show_text={"Ver Mas"} colour={'#ffffffff'} route={'/gallery'}/>
   </ScrollView>
     </View>
   );

@@ -1,9 +1,8 @@
-import { View, StyleSheet, FlatList, Text, ImageSourcePropType, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, ImageSourcePropType, ScrollView } from 'react-native';
 import NewsCard from '@/components/NewsCard';
 import GridGallery from '@/components/GridGallery';
 import { GalleryItem } from '@/components/GridGallery';
-
-
+import { Text, View } from '@/components/Themed'; 
 
 
 

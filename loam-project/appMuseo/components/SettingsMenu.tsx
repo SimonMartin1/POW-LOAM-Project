@@ -1,69 +1,84 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Link, Href } from 'expo-router';
 
-// 1. Definimos los tipos para nuestros datos
+// 1. Definimos los tipos
 type SettingItemData = {
-  icon: keyof typeof Ionicons.glyphMap; // Asegura que el nombre del icono sea válido
+  icon: keyof typeof Ionicons.glyphMap;
   label: string;
-  route?: string; // Opcional: para navegar
-  onPress?: () => void;
+  route?: Href; // Opcional: Puede ser una ruta
+  onPress?: () => void; // Opcional: Puede ser una función
+  isLast?: boolean;
 };
 
-// 2. Componente para una sola fila (Row)
-const SettingsItem = ({ icon, label, onPress }: SettingItemData) => {
-  return (
+// 2. El Componente Inteligente
+const SettingsItem = ({ icon, label, route, onPress, isLast }: SettingItemData) => {
+  
+  // Este es el contenido visual (Icono + Texto + Flecha)
+  const Content = (
     <Pressable 
-      style={({ pressed }) => [styles.itemContainer, pressed && styles.pressed]} 
-      onPress={onPress}
+      style={({ pressed }) => [
+        styles.itemContainer, 
+        isLast && styles.lastItem, // Quita el borde si es el último
+        pressed && styles.pressed
+      ]}
+      // Si NO hay ruta, usamos el onPress aquí. Si HAY ruta, el Link maneja el toque.
+      onPress={!route ? onPress : undefined} 
     >
       <View style={styles.leftContent}>
-        {/* Icono Izquierdo */}
-        <Ionicons name={icon} size={22} color="#2E2E5D" style={styles.icon} />
-        
-        {/* Texto */}
+        <Ionicons name={icon} size={22} color="#f8a932ff" style={styles.icon} />
         <Text style={styles.label}>{label}</Text>
       </View>
-
-      {/* Icono Flecha Derecha */}
-      <Ionicons name="chevron-forward" size={20} color="#2E2E5D" />
+      <Ionicons name="chevron-forward" size={20} color="#f8a932ff" />
     </Pressable>
   );
+
+
+  if (route) {
+    return (
+      <Link href={route} asChild >
+        {Content}
+      </Link>
+    );
+  }
+
+  return Content;
 };
 
-// 3. El Componente Principal de la Lista
+// 3. El Menú Completo
 const SettingsMenu = () => {
   
-  const handlePress = (label: string) => {
-    console.log(`Presionado: ${label}`);
-    // Aquí agregarías tu lógica de navegación (router.push...)
+  const handleLogout = () => {
+    console.log("Cerrando sesión...");
   };
 
   return (
     <View style={styles.cardContainer}>
-      
+    
       <SettingsItem 
-        icon="person" 
+        icon="person-outline" 
         label="Personal" 
-        onPress={() => handlePress('Personal')} 
+        route="/settingsProfile" 
       />
       
       <SettingsItem 
-        icon="options" 
-        label="General" 
-        onPress={() => handlePress('General')} 
+        icon="notifications-outline" 
+        label="Notificaciones" 
+        route="/settingsGeneral" 
       />
       
       <SettingsItem 
-        icon="notifications" 
-        label="Notification" 
-        onPress={() => handlePress('Notification')} 
+        icon="help-circle-outline" 
+        label="Ayuda" 
+        route="/settingsHelp" 
       />
 
       <SettingsItem 
-        icon="help-circle" 
-        label="Help" 
-        onPress={() => handlePress('Help')} 
+        icon="log-out-outline" 
+        label="Cerrar Sesión"
+        route="/(tabs)"
+        isLast
       />
 
     </View>
@@ -71,46 +86,47 @@ const SettingsMenu = () => {
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
+    cardContainer: {
     backgroundColor: '#fff',
     borderRadius: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    marginHorizontal: 20, // Margen exterior
+    marginHorizontal: 20,
     marginVertical: 10,
-    
-    // Sombra suave (estilo iOS)
+    // Sombras
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    // Sombra suave (estilo Android)
-    elevation: 3,
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    overflow: 'hidden',
   },
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: 'row', // Alineación horizontal
+    alignItems: 'center', // Centrado vertical
+    justifyContent: 'space-between', // Separación máxima
     paddingVertical: 16,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  lastItem: {
+    borderBottomWidth: 0,
   },
   pressed: {
-    backgroundColor: '#f5f5f5', // Efecto visual al tocar
-    borderRadius: 10,
+    backgroundColor: '#fff8e1',
   },
   leftContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 15,
   },
   icon: {
-    marginRight: 15,
-    width: 24, // Ancho fijo para que el texto se alinee perfectamente
+    width: 24,
     textAlign: 'center',
   },
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#2E2E5D', // El color azul oscuro de tu imagen
+    color: '#333',
   },
 });
 
