@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AppHeader from "@/components/AppHeader"; 
 import Carousel from "@/components/carousel"; 
-import MarqueeText from "@/components/marquee-text"; // Asegúrate de tener este componente creado
+import MarqueeText from "@/components/marquee-text"; 
 import { Link } from "@inertiajs/react";
 import AboutUs from '@/components/aboutus';
 import VisitCTA from '@/components/visitcta';
@@ -140,7 +140,7 @@ export default function Welcome({ imagenes = [], noticias = [] }: { imagenes: Im
                                 <img 
                                     key={social}
                                     src={`/images/social/${social}.png`}
-                                    className="h-6 w-6 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer filter invert"
+                                    className="h-6 w-6 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer"
                                     alt={social}
                                 />
                             ))}

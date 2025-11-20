@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use App\Models\Visit;
 use Illuminate\Http\Request;
+
 
 class VisitController extends Controller
 {
@@ -24,4 +27,31 @@ class VisitController extends Controller
         // 3. Retornamos éxito (Inertia manejará esto sin recargar toda la página)
         return back()->with('success', '¡Solicitud enviada correctamente!');
     }
+
+    public function index()
+    {
+        $visitas = \App\Models\Visit::latest()->get();
+
+        return Inertia::render('visitas/index', [
+            'visitas' => $visitas
+        ]);
+    }
+    public function approve($id)
+    {
+        $visit = Visit::findOrFail($id);
+        $visit->status = "approved";
+        $visit->save();
+
+        return back()->with('success', 'Visita aprobada correctamente.');
+    }
+
+    public function reject($id)
+    {
+        $visit = Visit::findOrFail($id);
+        $visit->status = "rejected";
+        $visit->save();
+
+        return back()->with('success', 'Visita rechazada correctamente.');
+    }
+    
 }
