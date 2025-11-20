@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Upload, Image as ImageIcon, Terminal } from "lucide-react";
+import { CalendarIcon, Upload, Image as ImageIcon, Terminal, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import AppLayout from "@/layouts/app-layout";
@@ -105,6 +105,19 @@ export default function Editar({ imagen }: Props) {
         )}
 
         <div className="mx-auto max-w-3xl">
+          {/* BOTÓN VOLVER */}
+        <Link
+            href="/imagenes"
+            className="
+                inline-flex items-center gap-2
+                text-[#3A5A40] font-semibold mb-8
+                px-5 py-2 rounded-full border border-[#c4c4c4]
+                bg-white hover:bg-[#ebebeb] transition shadow-sm
+            "
+        >
+            <ArrowLeft size={16} /> Volver 
+        </Link>
+
           <Card className="bg-card text-card-foreground border-border">
             <CardHeader>
               <CardTitle className="text-xl font-semibold">Detalles de la obra</CardTitle>
@@ -142,7 +155,7 @@ export default function Editar({ imagen }: Props) {
                       {date ? format(date, "PPP", { locale: es }) : "Seleccionar fecha"}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 bg-white shadow-lg border border-gray-200 rounded-xl" align="start">
+                  <PopoverContent className="w-auto p-0 bg-white shadow-lg border border-gray-200 rounded-xlz   " align="start">
                     <Calendar
                       mode="single"
                       selected={date}

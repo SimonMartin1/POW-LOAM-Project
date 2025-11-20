@@ -121,7 +121,7 @@ export default function Index() {
               <ArrowLeft size={16} /> Volver
         </Link>
 
-        <h1 className="text-xl font-semibold">Imágenes</h1>
+        <h1 className="text-xl font-semibold">Panel de Obras cargadas</h1>
 
         <div className="flex w-full items-center gap-2 sm:w-auto">
           {/* Search */}
@@ -227,7 +227,11 @@ export default function Index() {
 
                   {columns.descripcion && (
                     <TableCell className="text-slate-600 dark:text-slate-300">
-                      <span className="line-clamp-2">{img.descripcion}</span>
+                      <span className="line-clamp-2 ">{img.descripcion
+                              ? img.descripcion.length > 100
+                                  ? img.descripcion.substring(0, 100) + "…"
+                                  : img.descripcion
+                              : "-"}</span>
                     </TableCell>
                   )}
 

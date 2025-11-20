@@ -255,83 +255,77 @@ export default function Galeria({ imagenes }: { imagenes: Imagen[] }) {
             </div>
 
             {/* MODAL REESTILIZADO */}
-            <Dialog
-                open={!!selectedImagen}
-                onOpenChange={(open) => !open && setSelectedImagen(null)}
-            >
-                {selectedImagen && (
-                    <DialogContent className="max-w-4xl bg-white text-[#2A332D] rounded-3xl shadow-2xl border border-[#D6D0C4] p-8">
+            <Dialog open={!!selectedImagen} onOpenChange={(open) => !open && setSelectedImagen(null)}>
+            {selectedImagen && (
+                <DialogContent
+                    className="
+                        max-w-3xl w-full 
+                        bg-white 
+                        text-[#2A332D]
+                        rounded-3xl 
+                        shadow-2xl 
+                        p-8 
+                        max-h-[90vh]
+                        overflow-hidden 
+                        flex flex-col
+                    "
+                >
 
-                        {/* TÍTULO */}
-                        <DialogHeader className="mb-4">
-                            <DialogTitle className="text-3xl font-['Montserrat'] font-bold">
-                                {selectedImagen.nombre}
-                            </DialogTitle>
+                    {/* TÍTULO Y DATOS */}
+                    <h1 className="text-3xl font-black mb-1">
+                        {selectedImagen.nombre}
+                    </h1>
 
-                            <DialogDescription className="text-sm text-[#6A7A70] mt-2">
-                                {selectedImagen.autor && (
-                                    <>
-                                        <span className="font-semibold">Autor:</span> {selectedImagen.autor} &nbsp;•&nbsp;
-                                    </>
-                                )}
-                                <span className="font-semibold">Fecha:</span>{" "}
-                                {new Date(selectedImagen.fecha_creacion).toLocaleDateString("es-AR")}
-                            </DialogDescription>
-                        </DialogHeader>
+                    <p className="text-sm text-[#6A7A70] mb-4">
+                        <span className="font-semibold">Autor:</span> {selectedImagen.autor ?? "Desconocido"} •{" "}
+                        <span className="font-semibold">Fecha:</span>{" "}
+                        {new Date(selectedImagen.fecha_creacion).toLocaleDateString("es-AR")}
+                    </p>
 
-                        {/* IMAGEN */}
-                        <div className="w-full flex justify-center mb-6">
-                            <div className="rounded-2xl overflow-hidden shadow-lg bg-[#F2F2F2] max-h-[60vh]">
-                                <img
-                                    src={
-                                        selectedImagen.url_imagen.startsWith("http")
-                                            ? selectedImagen.url_imagen
-                                            : `/storage/${selectedImagen.url_imagen}`
-                                    }
-                                    alt={selectedImagen.nombre}
-                                    className="object-contain w-full h-full"
-                                />
-                            </div>
-                        </div>
+                    {/* IMAGEN - ÁREA FIJA */}
+                    <div className="w-full h-[300px] rounded-2xl overflow-hidden bg-black mb-4 flex items-center justify-center">
+                        <img
+                            src={selectedImagen.url_imagen.startsWith("http")
+                                ? selectedImagen.url_imagen
+                                : `/storage/${selectedImagen.url_imagen}`}
+                            alt={selectedImagen.nombre}
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
 
-                        {/* DESCRIPCIÓN */}
-                        {selectedImagen.descripcion && (
-                            <p className="text-sm leading-relaxed text-[#444] mb-6">
-                                {selectedImagen.descripcion}
-                            </p>
-                        )}
+                    {/* DESCRIPCION TRUNCADA */}
+                    <p
+                        className="
+                            text-[#444]
+                            leading-relaxed
+                            mb-6
+                            line-clamp-4
+                        "
+                    >
+                        {selectedImagen.descripcion}
+                    </p>
 
-                        {/* ACCIONES */}
-                        <div className="flex justify-between items-center">
+                    {/* BOTÓN PRINCIPAL */}
+                    <div className="mt-auto flex justify-center">
+                        <Link
+                            href={`/galeria/${selectedImagen.id}`}
+                            className="
+                                inline-flex items-center gap-3
+                                px-6 py-3 rounded-full
+                                bg-[#3A5A40] text-white font-semibold
+                                hover:bg-[#1f3022] transition shadow-md
+                            "
+                        >
+                            <Heart size={18} className="opacity-90" />
+                            <MessageCircle size={18} className="opacity-90" />
+                            Ver más detalles y comentarios →
+                        </Link>
+                    </div>
 
-                            {/* BOTÓN PRINCIPAL MÁS LINDO */}
-                            <Link
-                                href={`/galeria/${selectedImagen.id}`}
-                                className="
-                                    inline-flex items-center gap-3
-                                    px-6 py-3 rounded-full
-                                    bg-[#3A5A40] text-white 
-                                    hover:bg-[#1f3022] transition
-                                    shadow-md
-                                "
-                            >
-                                <Heart size={18} className="opacity-80" />
-                                <MessageCircle size={18} className="opacity-80" />
-                                ¡Dale Like o haz un comentario!
-                            </Link>
-
-
-                            {/* CERRAR */}
-                            <button
-                                onClick={() => setSelectedImagen(null)}
-                                className="text-sm text-[#6A7A70] hover:text-[#2A332D] underline underline-offset-4"
-                            >
-                                Cerrar
-                            </button>
-                        </div>
-                    </DialogContent>
-                )}
+                </DialogContent>
+            )}
             </Dialog>
+
 
         </AppLayout>
     );
