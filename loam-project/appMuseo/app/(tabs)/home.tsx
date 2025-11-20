@@ -6,7 +6,7 @@ import LinkButton from '@/components/LinkButton';
 import { Text, View } from '@/components/Themed'; 
 
 // CONFIGURACIÓN
-const IP = '192.168.1.36'; 
+const IP = '192.168.1.38'; 
 const BASE_URL = `http://${IP}:8000`;
 
 // Espacio entre cards

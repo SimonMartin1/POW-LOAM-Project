@@ -4,7 +4,7 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import NewsDetailScreen, { NewsDetailProps } from '@/components/NewsDetailScreen';
 
 // --- CONFIGURACIÓN ---
-const IP = '192.168.1.36'; // <--- Verifica que sea tu IP actual
+const IP = '192.168.1.38'; // <--- Verifica que sea tu IP actual
 const BASE_URL = `http://${IP}:8000`;
 
 export default function NewsPage() {

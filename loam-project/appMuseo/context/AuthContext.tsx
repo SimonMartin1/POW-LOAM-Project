@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 // REVISA TU IP
-const BASE_URL = 'http://192.168.1.36:8000/api/mobile'; 
+const BASE_URL = 'http://192.168.1.38:8000/api/mobile'; 
 
 interface AuthContextType {
   user: any;
