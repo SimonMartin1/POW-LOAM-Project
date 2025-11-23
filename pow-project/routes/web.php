@@ -56,10 +56,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- Comentarios ---
     Route::post('/comentarios', [CommentController::class, 'store'])->name('comentarios.store');
-    Route::delete('/comentarios/{comment}', [CommentController::class, 'destroy'])->name('comentarios.destroy');
-    Route::get('/mis-comentarios', [CommentController::class, 'misComentarios'])
-    ->name('comentarios.miscomentarios');
 
+    Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])
+        ->name('comentarios.destroy');
+
+    Route::get('/mis-comentarios', [CommentController::class, 'misComentarios'])
+        ->name('comentarios.miscomentarios');
 
     // --- Likes ---
     Route::post('/likes/toggle', [ImageLikeController::class, 'toggle'])->name('likes.toggle');

@@ -2,7 +2,7 @@ import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren, useState, useEffect, useRef } from 'react';
 
 interface AuthLayoutProps {
     title?: string;
@@ -16,33 +16,55 @@ export default function AuthSplitLayout({
 }: PropsWithChildren<AuthLayoutProps>) {
     usePage<SharedData>().props;
 
+    // LISTA DE VIDEOS
+    const videos = [
+
+        "/videos/video2.mp4",
+        "/videos/video3.mp4",
+    ];
+
+    // VIDEO ACTUAL
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+
+    // CUANDO TERMINA EL VIDEO → SIGUIENTE
+    const handleVideoEnd = () => {
+        setCurrentIndex((prev) => (prev + 1) % videos.length);
+    };
+
+    // CAMBIAR SRC del video sin recrear el elemento
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.src = videos[currentIndex];
+            videoRef.current.play().catch(() => {});
+        }
+    }, [currentIndex]);
+
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
             
-            {/* LADO IZQUIERDO → SOLO EL VIDEO */}
+            {/* LADO IZQUIERDO → VIDEO ROTATIVO */}
             <div className="relative hidden h-full lg:flex">
 
-                {/* VIDEO DE FONDO */}
                 <video
+                    ref={videoRef}
                     autoPlay
-                    loop
                     muted
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover"
-                    src="/videos/videoLoguin2.mp4"
+                    onEnded={handleVideoEnd}
+                    src={videos[0]} // primer video al cargar
                 />
 
-                {/* CAPA DE OSCURECIMIENTO SUAVE */}
+                {/* CAPA DE OSCURECIMIENTO */}
                 <div className="absolute inset-0 bg-black/40" />
-
-                {/* Antes aquí estaba el logo y el quote — ELIMINADO */}
             </div>
 
-            {/* LADO DERECHO (FORMULARIO) */}
+            {/* LADO DERECHO — FORMULARIO */}
             <div className="w-full lg:p-8">
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                    
-                    {/* LOGO SOLO EN MOBILE (opcional) */}
+
+                    {/* LOGO SOLO EN MOBILE */}
                     <Link
                         href={home()}
                         className="relative z-20 flex items-center justify-center lg:hidden"

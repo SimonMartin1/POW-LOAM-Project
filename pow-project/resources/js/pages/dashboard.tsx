@@ -13,7 +13,6 @@ export default function Dashboard() {
     const { auth, stats } = usePage().props as any;
     const user = auth.user;
 
-    // Igual que en AppHeader: roles viene del backend (Spatie)
     const isAdmin: boolean = user?.roles?.includes("admin") ?? false;
 
     return (

@@ -142,9 +142,7 @@ export default function Galeria({ imagenes }: { imagenes: Imagen[] }) {
                     </select>
 
                     <div className="flex flex-col w-full lg:w-56">
-                        <label className="text-xs font-semibold text-gray-600 mb-1">
-                            Ordenar por año
-                        </label>
+                       
 
                         <select
                             value={order}
@@ -161,7 +159,7 @@ export default function Galeria({ imagenes }: { imagenes: Imagen[] }) {
                                 transition
                             "
                         >
-                            <option value="none">Sin ordenar</option>
+                            <option value="none">-- Ordenar --</option>
                             <option value="desc">Orden descendente (Año)</option>
                             <option value="asc">Orden ascendente (Año)</option>
                         </select>
