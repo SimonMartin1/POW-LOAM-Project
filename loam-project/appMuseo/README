@@ -1,0 +1,6 @@
+para exponer el backend 
+
+1- instalamos ngrok
+2- configuramos el token ngrok config add-authtoken --token--
+3- corremos el backend y exponemos el puerto con ngrok http puerto
+4- en config/config.tsx cambiar la URL por la que nos da ngrox

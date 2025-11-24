@@ -1,13 +1,11 @@
 import React from 'react';
 import { 
   FlatList, 
-  View, 
-  StyleSheet, 
   Dimensions, 
   ImageSourcePropType
 } from 'react-native';
 
-
+import { View, Text } from '@/components/Themed'; 
 import NewsCard from './NewsCard';
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, useColorScheme, TextInputProps, ViewStyle } from 'react-native';
+import { TextInput, StyleSheet, useColorScheme, TextInputProps, ViewStyle } from 'react-native';
 import Colors from '@/constants/Colors';
-
+import { View, Text } from '@/components/Themed'; 
 interface InputProps extends TextInputProps {
   placeHolder?: string;
   // Agregamos esta prop para poder mover el contenedor gris desde fuera

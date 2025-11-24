@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, Href } from 'expo-router';
-
+import { View, Text } from '@/components/Themed'; 
 // 1. Definimos los tipos
 type SettingItemData = {
   icon: keyof typeof Ionicons.glyphMap;

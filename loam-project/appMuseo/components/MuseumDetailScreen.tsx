@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  View, 
-  Text, 
   Image, 
   StyleSheet, 
   ScrollView, 
@@ -14,6 +12,8 @@ import { useNavigation } from 'expo-router';
 import ModelViewer from './ModelViewer';
 import MediaGallery from './MediaGallery';
 import { MediaItem } from './MediaGallery';
+import { useAuth } from '@/context/AuthContext';
+import { View, Text } from '@/components/Themed'; 
 type Comment = {
   id: string;
   user: string;
@@ -50,6 +50,9 @@ const MuseumDetailScreen = (props: MuseumDetailProps) => {
   const [showAllComments, setShowAllComments] = useState(false);
   
   const INITIAL_COMMENT_COUNT = 2; // Mostramos solo 2 al principio
+
+  const { user, token } = useAuth();
+  console.log(user);
 
   const {
     id,
@@ -116,50 +119,61 @@ const MuseumDetailScreen = (props: MuseumDetailProps) => {
           )}
 
           {/* --- SECCIÓN DE COMENTARIOS --- */}
-          <View style={styles.commentsSection}>
-            <View style={styles.commentsHeaderSection}>
-                <Text style={styles.sectionTitle}>Comentarios</Text>
-                <Text style={styles.commentCount}>({COMENTARIOS_DATA.length})</Text>
-            </View>
-            
-            <Pressable 
-                style={({ pressed }) => [styles.commentButton, pressed && { opacity: 0.7 }]}
-                onPress={onPressComment}
-            >
-                <Ionicons name="chatbubble-outline" size={20} color="#F79A2B" />
-                <Text style={styles.commentButtonText}>Escribir una reseña</Text>
-            </Pressable>
+{true && (
+  <View style={styles.commentsSection}>
+    <View style={styles.commentsHeaderSection}>
+        <Text style={styles.sectionTitle}>Comentarios</Text>
+        <Text style={styles.commentCount}>({COMENTARIOS_DATA.length})</Text>
+    </View>
+    
+    <Pressable 
+        style={({ pressed }) => [styles.commentButton, pressed && { opacity: 0.7 }]}
+        onPress={onPressComment}
+    >
+        <Ionicons name="chatbubble-outline" size={20} color="#F79A2B" />
+        <Text style={styles.commentButtonText}>Escribir una reseña</Text>
+    </Pressable>
 
-            {/* Renderizamos la lista cortada o completa */}
-            {displayedComments.map((comment) => (
-                <View key={comment.id}>
-                    {renderCommentItem({ item: comment })}
-                </View>
-            ))}
+    {/* Renderizamos la lista cortada o completa */}
+    {displayedComments.map((comment) => (
+        <View key={comment.id}>
+            {renderCommentItem({ item: comment })}
+        </View>
+    ))}
 
-            {/* --- BOTÓN VER MÁS / VER MENOS --- */}
-            {COMENTARIOS_DATA.length > INITIAL_COMMENT_COUNT && (
-              <Pressable 
-                style={styles.viewMoreButton}
-                onPress={() => setShowAllComments(!showAllComments)}
-              >
-                <Text style={styles.viewMoreText}>
-                  {showAllComments ? 'Ver menos comentarios' : `Ver los ${COMENTARIOS_DATA.length - INITIAL_COMMENT_COUNT} comentarios restantes`}
-                </Text>
-                <Ionicons 
-                  name={showAllComments ? "chevron-up" : "chevron-down"} 
-                  size={16} 
-                  color="#666" 
-                />
-              </Pressable>
-            )}
+    {/* --- BOTÓN VER MÁS / VER MENOS --- */}
+    {COMENTARIOS_DATA.length > INITIAL_COMMENT_COUNT && (
+      <Pressable 
+        style={styles.viewMoreButton}
+        onPress={() => setShowAllComments(!showAllComments)}
+      >
+        <Text style={styles.viewMoreText}>
+          {showAllComments ? 'Ver menos comentarios' : `Ver los ${COMENTARIOS_DATA.length - INITIAL_COMMENT_COUNT} comentarios restantes`}
+        </Text>
+        <Ionicons 
+          name={showAllComments ? "chevron-up" : "chevron-down"} 
+          size={16} 
+          color="#666" 
+        />
+      </Pressable>
+    )}
 
-            {COMENTARIOS_DATA.length === 0 && (
-                <Text style={styles.noCommentsText}>
-                    Sé el primero en opinar sobre esta obra.
-                </Text>
-            )}
-          </View>
+    {COMENTARIOS_DATA.length === 0 && (
+        <Text style={styles.noCommentsText}>
+            Sé el primero en opinar sobre esta obra.
+        </Text>
+    )}
+  </View>
+)}
+
+{/* Opcional: Mostrar mensaje si NO está logueado */}
+{!user && (
+    <View style={{ padding: 20, alignItems: 'center' }}>
+        <Text style={{ color: '#888', fontStyle: 'italic' }}>
+            Inicia sesión para ver y dejar comentarios.
+        </Text>
+    </View>
+)}
 
         </View>
       </ScrollView>

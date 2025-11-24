@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, Alert } from 'react-native';
+import {StyleSheet, Alert } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import MuseumDetailScreen, { MuseumDetailProps } from '@/components/MuseumDetailScreen';
 import CommentModal from '@/components/CommentModal'; 
-
+import { View, Text } from '@/components/Themed'; 
 const OBRAS_DB: MuseumDetailProps[] = [ // Usamos el tipo MuseumDetailProps para que TypeScript nos ayude
   { 
     id: '1', // Asegúrate de que este ID coincida con el de tu lista en home.tsx
@@ -118,8 +118,6 @@ export default function ObraDetailPage() {
   const handleSendComment = async (text: string) => {
     setIsSubmitting(true);
 
-    // SIMULACIÓN DE LLAMADA A LA API (Laravel)
-    // En la realidad sería: await api.post('/comments', { obra_id: id, content: text })
     setTimeout(() => {
       setIsSubmitting(false);
       setModalVisible(false); // Cierra el modal
@@ -131,7 +129,6 @@ export default function ObraDetailPage() {
         [{ text: "Entendido" }]
       );
       
-      console.log("Comentario enviado para obra ID:", id, "Contenido:", text);
     }, 1500); // Simulamos 1.5 segundos de carga
   };
 
@@ -154,12 +151,7 @@ export default function ObraDetailPage() {
         onPressComment={handleOpenCommentModal}
         />
       )}
-      <CommentModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSubmit={handleSendComment}
-        isSubmitting={isSubmitting}
-      />
+
     </>
   );
 }

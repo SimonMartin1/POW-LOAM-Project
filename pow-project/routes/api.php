@@ -35,6 +35,23 @@ Route::post('/mobile/login', function (Request $request) {
     ]);
 });
 
+
+Route::middleware('auth:sanctum')->post('/mobile/logout', function (Request $request) {
+    
+    // Opción A: Borrar solo el token que se usó para esta petición (Recomendado)
+    // Esto permite que si el usuario está logueado en una Tablet y un Celular, 
+    // solo se cierre la sesión en el dispositivo actual.
+    $request->user()->currentAccessToken()->delete();
+
+    // Opción B (Si quieres cerrar sesión en TODOS los dispositivos):
+    // $request->user()->tokens()->delete();
+
+    return response()->json([
+        'message' => 'Sesión cerrada exitosamente'
+    ]);
+});
+
+
 Route::post('/mobile/register', function (Request $request) {
     // 1. Validamos los datos
     $request->validate([

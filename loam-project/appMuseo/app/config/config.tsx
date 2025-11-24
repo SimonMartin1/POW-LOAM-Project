@@ -6,7 +6,7 @@
  */
 export const getBaseUrl = (): string => {
     // 1. Intentamos leer la variable con el prefijo de Expo
-    const url = 'http://192.168.0.102:8000'
+    const url = 'https://squabbier-ivy-covinously.ngrok-free.dev'
 
     // 2. Validación de Seguridad:
     // Si la variable no existe (es undefined o string vacío), lanzamos un error

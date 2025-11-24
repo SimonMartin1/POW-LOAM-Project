@@ -4,64 +4,74 @@ import {
   Dimensions, 
   Pressable, 
   Alert,
-  SafeAreaView,
-  StatusBar
+  StatusBar,
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, View } from '@/components/Themed'; 
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 const SCANNER_SIZE = width * 0.7; 
 
 export default function EscanearScreen() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [isCameraActive, setIsCameraActive] = useState(false); 
+  const [isCameraActive, setIsCameraActive] = useState(false);
   const [scanned, setScanned] = useState(false);
 
-  
-  const handleStartCamera = async () => {
-    if (!permission) return;
+  if (!permission) {
+    return <View style={{ flex: 1, backgroundColor: "#000" }} />;
+  }
 
+  const handleStartCamera = async () => {
     if (!permission.granted) {
       const result = await requestPermission();
-      if (result.granted) {
-        setIsCameraActive(true); 
-      } else {
-        Alert.alert("Permiso denegado", "Necesitamos acceso a la cámara para escanear QRs.");
+      if (!result.granted) {
+        return Alert.alert(
+          "Permiso denegado",
+          "Necesitamos acceso a la cámara para escanear QRs."
+        );
       }
-    } else {
-      setIsCameraActive(true);
     }
+
+    setScanned(false);
+    setIsCameraActive(true);
   };
 
-  const handleBarCodeScanned = ({ type, data }: { type: string, data: string }) => {
+  const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
+    if (scanned) return;
+
     setScanned(true);
-    setIsCameraActive(false); 
-    console.log(`QR detectado: ${data}`);
-    router.push(`/obra/${data}`); 
+    setIsCameraActive(false);
+
+    console.log("QR detectado:", data);
+
+    router.push(`/obra/${data}`);
   };
 
   const handleBack = () => {
     if (isCameraActive) {
       setIsCameraActive(false);
     } else {
-      router.push(`/(tabs)/qr_scan`);  
+      router.back();
     }
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#fff" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
       
-      <View style={styles.header}>
-        <Pressable onPress={handleBack} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={28} color="white" />
-        </Pressable>
-      </View>
+      <SafeAreaView style={styles.headerContainer}>
+        <View style={styles.header}>
+          <Pressable onPress={handleBack} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={28} color="white" />
+          </Pressable>
+        </View>
+      </SafeAreaView>
 
       {!isCameraActive ? (
+        // ---- LOBBY ----
         <View style={styles.startContainer}>
           <View style={styles.iconCircle}>
             <Ionicons name="qr-code-outline" size={80} color="#F79A2B" />
@@ -73,78 +83,82 @@ export default function EscanearScreen() {
           </Text>
 
           <Pressable 
-            style={({pressed}) => [styles.btnStart, pressed && {opacity: 0.8}]}
+            style={({ pressed }) => [styles.btnStart, pressed && { opacity: 0.8 }]}
             onPress={handleStartCamera}
           >
-            <Ionicons name="camera" size={24} color="#fff" style={{marginRight: 10}}/>
+            <Ionicons name="camera" size={24} color="#fff" style={{ marginRight: 10 }} />
             <Text style={styles.btnStartText}>Activar Cámara</Text>
           </Pressable>
         </View>
 
       ) : (
+        // ---- CÁMARA ----
         <View style={styles.cameraContainer}>
           <CameraView
             style={StyleSheet.absoluteFillObject}
             facing="back"
             onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-            barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
           />
+
+          {/* Overlay */}
           <View style={styles.overlay}>
             <View style={styles.topOverlay}>
               <Text style={styles.instructions}>Ubica el código en el cuadro</Text>
             </View>
+
             <View style={styles.middleContainer}>
               <View style={styles.sideDark} />
+              
               <View style={styles.focusedContainer}>
-                 <View style={[styles.corner, styles.topLeft]} />
-                 <View style={[styles.corner, styles.topRight]} />
-                 <View style={[styles.corner, styles.bottomLeft]} />
-                 <View style={[styles.corner, styles.bottomRight]} />
+                <View style={[styles.corner, styles.topLeft]} />
+                <View style={[styles.corner, styles.topRight]} />
+                <View style={[styles.corner, styles.bottomLeft]} />
+                <View style={[styles.corner, styles.bottomRight]} />
               </View>
+
               <View style={styles.sideDark} />
             </View>
+
             <View style={styles.bottomOverlay}>
-                <Text style={styles.hintText}>Buscando...</Text>
+              <Text style={styles.hintText}>Buscando...</Text>
             </View>
           </View>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1, 
+  container: { flex: 1, backgroundColor: '#000' },
+  headerContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    width: '100%',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    zIndex: 10, 
-  },
+  header: { paddingHorizontal: 20, paddingTop: 10 },
   backButton: {
-    padding: 5,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 20,
+    alignSelf: 'flex-start',
   },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  
+
+  // Lobby
   startContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
+    backgroundColor: '#fff',
   },
   iconCircle: {
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: 'rgba(247, 154, 43, 0.15)', 
+    backgroundColor: 'rgba(247, 154, 43, 0.15)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
@@ -152,14 +166,14 @@ const styles = StyleSheet.create({
     borderColor: '#F79A2B',
   },
   startTitle: {
-    color: '#000000b1',
+    color: '#333',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   startSubtitle: {
     fontSize: 16,
-    color: '#000000b1',
+    color: '#666',
     textAlign: 'center',
     marginBottom: 40,
     lineHeight: 22,
@@ -172,10 +186,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     elevation: 5,
-    shadowColor: '#F79A2B',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
   },
   btnStartText: {
     color: 'white',
@@ -183,13 +193,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  cameraContainer: {
-    flex: 1,
-    borderRadius: 20, 
-    overflow: 'hidden',
-    marginHorizontal: 0,
-    marginBottom: 0,
-  },
+  // Cámara
+  cameraContainer: { flex: 1, backgroundColor: '#000' },
+
   overlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
@@ -208,29 +214,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
   },
-  middleContainer: {
-    flexDirection: 'row',
-    height: SCANNER_SIZE,
-  },
-  sideDark: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-  },
-  focusedContainer: {
-    width: SCANNER_SIZE,
-    height: SCANNER_SIZE,
-  },
-  instructions: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  hintText: {
-    color: '#000000ff',
-    fontSize: 14,
-  },
-  
-  // Esquinas
+  middleContainer: { flexDirection: 'row', height: SCANNER_SIZE },
+  sideDark: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
+  focusedContainer: { width: SCANNER_SIZE, height: SCANNER_SIZE },
+
+  instructions: { color: 'white', fontSize: 16, fontWeight: '600' },
+  hintText: { color: '#ccc', fontSize: 14 },
+
+  // Esquinas del cuadro QR
   corner: {
     position: 'absolute',
     width: 30,

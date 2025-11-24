@@ -2,10 +2,10 @@
 // En: components/SearchBar.tsx
 
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, useColorScheme, Pressable } from 'react-native';
+import { TextInput, StyleSheet, useColorScheme, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
-
+import { View, Text } from '@/components/Themed'; 
 
 type SearchBarProps = {
   onSearch?: (query: string) => void; // Para "Enter"

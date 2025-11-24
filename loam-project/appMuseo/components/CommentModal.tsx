@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  View, 
-  Text, 
   StyleSheet, 
   Modal, 
   TextInput, 
@@ -10,6 +8,7 @@ import {
   Platform,
   ActivityIndicator
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { Ionicons } from '@expo/vector-icons';
 
 type CommentModalProps = {

@@ -1,14 +1,14 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
+import {
+  View, Text ,   
   Image, 
   StyleSheet, 
   useColorScheme, 
   Pressable,
   ImageSourcePropType
 } from 'react-native';
-import Colors from '../constants/Colors';
+
+
 import { router } from 'expo-router'; // 1. Importamos el router
 
 type MuseoCardProps = {
@@ -22,10 +22,6 @@ type MuseoCardProps = {
 const MuseoCard = ({ id, title, category, imageUrl, onPress }: MuseoCardProps) => {
   const colorScheme = useColorScheme();
   
-  // Ajuste de colores seguro por si Colors.light.text no existe directo
-  const themeText = colorScheme === 'light' ? Colors.dark.text : Colors.light.text;
-  const cardBackground = colorScheme === 'light' ? Colors.dark.background : Colors.light.background;
-  const shadowColor = colorScheme === 'light' ? '#000' : '#000';
 
   // 3. Función interna que decide qué hacer
   const handlePress = () => {
@@ -41,7 +37,7 @@ const MuseoCard = ({ id, title, category, imageUrl, onPress }: MuseoCardProps) =
       onPress={handlePress} // Usamos nuestra función interna
       style={({ pressed }) => [
         styles.container,
-        { backgroundColor: cardBackground, shadowColor: shadowColor },
+        { backgroundColor: '#ffffffff', shadowColor: '#000' },
         pressed && styles.pressed 
       ]}
     >
@@ -51,10 +47,10 @@ const MuseoCard = ({ id, title, category, imageUrl, onPress }: MuseoCardProps) =
       />
       
       <View style={styles.content}>
-        <Text style={[styles.category, { color: themeText }]}>
+        <Text style={[styles.category, ]}>
           {category.toUpperCase()}
         </Text>
-        <Text style={[styles.title, { color: themeText }]}>
+        <Text style={[styles.title, ]}>
           {title}
         </Text>
       </View>

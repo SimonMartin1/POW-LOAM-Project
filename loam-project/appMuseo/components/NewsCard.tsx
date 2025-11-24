@@ -2,13 +2,12 @@
 
 import React from 'react';
 import { 
-  View, 
-  Text, 
   Image, 
   StyleSheet, 
   Pressable, 
   ImageSourcePropType 
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { FontAwesome } from '@expo/vector-icons'; // Para el ícono de estrella
 import Colors from '@/constants/Colors';
 import { router } from 'expo-router';

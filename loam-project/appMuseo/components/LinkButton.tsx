@@ -1,6 +1,6 @@
-import { View, StyleSheet, Text, Pressable, ColorValue } from 'react-native';
+import { StyleSheet, Pressable, ColorValue } from 'react-native';
 import { Href, Link } from 'expo-router';
-
+import { View, Text } from '@/components/Themed'; 
 type Data = {
   show_text: string;
   colour: ColorValue;

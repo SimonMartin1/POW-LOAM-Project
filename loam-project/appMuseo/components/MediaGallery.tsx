@@ -1,6 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react';
 import { 
-  View, 
   Image, 
   StyleSheet, 
   FlatList, 
@@ -9,9 +8,9 @@ import {
   ImageSourcePropType,
   Modal,
   StatusBar,
-  Text,
   ViewToken
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { Video, ResizeMode, AVPlaybackSource } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
 

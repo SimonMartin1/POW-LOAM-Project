@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import {StyleSheet, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import NewsDetailScreen, { NewsDetailProps } from '@/components/NewsDetailScreen';
-
+import { View, Text } from '@/components/Themed'; 
 // --- CONFIGURACIÓN ---
 const IP = '192.168.1.38'; // <--- Verifica que sea tu IP actual
 const BASE_URL = `http://${IP}:8000`;

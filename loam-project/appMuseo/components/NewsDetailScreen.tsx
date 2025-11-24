@@ -1,7 +1,5 @@
 import React from 'react';
 import { 
-  View, 
-  Text, 
   Image, 
   StyleSheet, 
   ScrollView, 
@@ -9,6 +7,7 @@ import {
   ImageSourcePropType,
   Pressable
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 

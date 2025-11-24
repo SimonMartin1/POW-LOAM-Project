@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { 
-  View, 
-  Text, 
   StyleSheet, 
   Pressable, 
   Modal, 
   FlatList, 
   TouchableOpacity 
 } from 'react-native';
+import { View, Text } from '@/components/Themed'; 
 import { FontAwesome } from '@expo/vector-icons';
 
 export type DropdownOption = {

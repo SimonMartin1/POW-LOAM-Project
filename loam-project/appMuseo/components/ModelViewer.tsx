@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator, Platform } from 'react-native'; // 1. Importa Platform
+import { StyleSheet, ActivityIndicator, Platform } from 'react-native'; // 1. Importa Platform
 import { WebView } from 'react-native-webview';
-
+import { View, Text } from '@/components/Themed'; 
 type ModelViewerProps = {
   modelUrl: string; 
   posterUrl?: string; 
